@@ -126,7 +126,8 @@ import {
   Container, Row, Col, 
   Button, Card, Alert, 
   Modal,
-  Statistic, Steps, Timeline, Rate, Avatar, Tag, Segmented, Result
+  Statistic, Steps, Timeline, Rate, Avatar, Tag, Segmented, Result,
+  Command, Kbd, Toggle, ToggleGroup, AspectRatio
 } from 'react-bootstrap-tailwind-ui';
 
 export default function Dashboard() {

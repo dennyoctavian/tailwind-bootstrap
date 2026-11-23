@@ -31,5 +31,11 @@ export * from './segmented';
 export * from './divider';
 export * from './tag';
 
+// shadcn/ui Modern Interactive Components
+export * from './command';
+export * from './kbd';
+export * from './aspect-ratio';
+export * from './toggle';
+
 // Documentation Helpers
 export * from './doc';

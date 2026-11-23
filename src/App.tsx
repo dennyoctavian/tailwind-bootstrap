@@ -49,6 +49,11 @@ import {
   Segmented,
   Divider,
   Tag,
+  Command,
+  Kbd,
+  AspectRatio,
+  Toggle,
+  ToggleGroup,
 } from './components';
 
 import {
@@ -76,6 +81,15 @@ import {
   Inbox,
   SplitSquareVertical,
   Sparkles,
+  Terminal,
+  Bold,
+  Italic,
+  Underline,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  AlignJustify,
+  Search,
 } from 'lucide-react';
 
 export default function App() {
@@ -125,6 +139,11 @@ export default function App() {
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
     );
   };
+
+  // shadcn/ui Demo States
+  const [openCommand, setOpenCommand] = useState(false);
+  const [toggleFormats, setToggleFormats] = useState<string[]>(['bold']);
+  const [toggleAlign, setToggleAlign] = useState<string>('center');
 
   useEffect(() => {
     if (darkMode) {
@@ -213,6 +232,14 @@ export default function App() {
         { id: 'empty-result', label: 'Empty & Result State', icon: <Inbox className="w-4 h-4" /> },
       ],
     },
+    {
+      title: 'shadcn/ui Modern Primitives',
+      links: [
+        { id: 'command-kbd', label: 'Command & Kbd (⌘K)', icon: <Terminal className="w-4 h-4" /> },
+        { id: 'toggle-group', label: 'Toggle & ToggleGroup', icon: <Bold className="w-4 h-4" /> },
+        { id: 'aspect-ratio', label: 'Aspect Ratio', icon: <Images className="w-4 h-4" /> },
+      ],
+    },
   ];
 
   // MAIN PAGE CONTENT COMPONENT
@@ -238,12 +265,28 @@ export default function App() {
             <Nav.Link inNavbar href="#steps-timeline">
               <span className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-semibold">
                 <Sparkles className="w-3.5 h-3.5" />
-                AntD Hybrid
+                AntD
+              </span>
+            </Nav.Link>
+            <Nav.Link inNavbar href="#command-kbd">
+              <span className="inline-flex items-center gap-1 text-slate-800 dark:text-slate-200 font-semibold">
+                <Terminal className="w-3.5 h-3.5" />
+                shadcn/ui
               </span>
             </Nav.Link>
             <Nav.Link inNavbar href="#forms">Form</Nav.Link>
           </Nav>
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-3 lg:pt-0 w-full lg:w-auto border-t lg:border-t-0 border-slate-200 dark:border-slate-700">
+            <button
+              type="button"
+              onClick={() => setOpenCommand(true)}
+              className="hidden lg:flex items-center gap-2 px-3 py-1.5 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:border-slate-400 transition-colors shadow-xs"
+              title="Cari perintah atau buka modul (Tekan ⌘K)"
+            >
+              <Search className="w-3.5 h-3.5 text-slate-400" />
+              <span>Cari...</span>
+              <Kbd size="sm">⌘K</Kbd>
+            </button>
             <Button
               variant="outline-primary"
               size="sm"
@@ -1414,19 +1457,21 @@ export default function App() {
 </Row>`}
                 >
                   <Row gutter={3}>
-                    <Col xs={12} sm={6} lg={3} className="mb-3 sm:mb-0">
+                    <Col xs={12} sm={6} lg={3} className="mb-3 lg:mb-0">
                       <Statistic
                         title="Total Omzet Penjualan"
                         value="248.500.000"
                         prefix="Rp "
                         trend="up"
+                        trendValue="+14.2%"
                       />
                     </Col>
-                    <Col xs={12} sm={6} lg={3} className="mb-3 sm:mb-0">
+                    <Col xs={12} sm={6} lg={3} className="mb-3 lg:mb-0">
                       <Statistic
                         title="Pengguna Aktif"
                         value="12.450"
                         trend="up"
+                        trendValue="+8.1%"
                         suffix=" user"
                       />
                     </Col>
@@ -1437,6 +1482,7 @@ export default function App() {
                         precision={1}
                         suffix="%"
                         trend="down"
+                        trendValue="-0.8%"
                       />
                     </Col>
                     <Col xs={12} sm={6} lg={3}>
@@ -1806,13 +1852,419 @@ export default function App() {
               </div>
             </section>
 
+            {/* 21. COMMAND & KBD (SHADCN/UI MODERN) */}
+            <section id="command-kbd" className="scroll-mt-24">
+              <div className="border-b border-slate-200 dark:border-slate-800 pb-3 mb-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Badge variant="dark" pill>shadcn/ui Modern</Badge>
+                  <span className="text-xs text-slate-400 font-mono">Spotlight Search & Keycaps</span>
+                </div>
+                <h2 className="text-xl sm:text-3xl font-bold tracking-tight">Command Palette & Kbd</h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                  Menu pencarian perintah cepat bergaya spotlight dengan navigasi keyboard (`⌘K` / `Ctrl+K`) serta elemen tombol keyboard (*keycaps*).
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <CodePreview
+                  title="Command Palette Spotlight Dialog"
+                  description="Dapat dibuka dengan menekan tombol di bawah atau kombinasi shortcut keyboard ⌘K kapan saja:"
+                  code={`// Buka dialog Command Palette (⌘K)
+const [open, setOpen] = useState(false);
+
+<Button onClick={() => setOpen(true)}>
+  Buka Command (⌘K)
+</Button>
+
+<Command.Dialog open={open} onOpenChange={setOpen}>
+  <Command>
+    <Command.Input placeholder="Ketik perintah atau cari fitur..." />
+    <Command.List>
+      <Command.Empty>Tidak ada perintah ditemukan.</Command.Empty>
+      <Command.Group heading="Saran Cepat">
+        <Command.Item onSelect={() => navigate('/grid')}>
+          <LayoutGrid className="w-4 h-4 mr-2 text-blue-500" />
+          <span>Sistem Grid Responsif</span>
+          <Command.Shortcut><Kbd size="sm">G</Kbd></Command.Shortcut>
+        </Command.Item>
+      </Command.Group>
+    </Command.List>
+  </Command>
+</Command.Dialog>`}
+                >
+                  <div className="space-y-4">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <Button
+                        variant="primary"
+                        onClick={() => setOpenCommand(true)}
+                        icon={<Terminal className="w-4 h-4 mr-2" />}
+                      >
+                        Buka Spotlight Command Palette
+                      </Button>
+                      <div className="inline-flex items-center gap-1.5 text-xs text-slate-500 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-xl">
+                        <span>Tekan</span>
+                        <Kbd size="sm">⌘</Kbd>
+                        <span>+</span>
+                        <Kbd size="sm">K</Kbd>
+                        <span className="text-slate-400 dark:text-slate-500">(atau Ctrl + K di Windows)</span>
+                      </div>
+                    </div>
+
+                    {/* Inline Command Preview */}
+                    <div className="max-w-md pt-2">
+                      <span className="text-xs text-slate-500 block mb-2 font-medium">Pratinjau Inline (Langsung di Halaman):</span>
+                      <Command className="border border-slate-200 dark:border-slate-800 shadow-md">
+                        <Command.Input placeholder="Coba ketik 'grid', 'tombol', 'tema'..." />
+                        <Command.List>
+                          <Command.Empty>Tidak ada fitur cocok.</Command.Empty>
+                          <Command.Group heading="Navigasi Cepat">
+                            <Command.Item onSelect={() => { const el = document.getElementById('grid'); el?.scrollIntoView({ behavior: 'smooth' }); }}>
+                              <div className="flex items-center gap-2">
+                                <LayoutGrid className="w-4 h-4 text-blue-500" />
+                                <span>Tata Letak Grid 12 Kolom</span>
+                              </div>
+                              <Command.Shortcut><Kbd size="sm">G</Kbd></Command.Shortcut>
+                            </Command.Item>
+                            <Command.Item onSelect={() => { const el = document.getElementById('buttons'); el?.scrollIntoView({ behavior: 'smooth' }); }}>
+                              <div className="flex items-center gap-2">
+                                <CheckCircle className="w-4 h-4 text-emerald-500" />
+                                <span>Buttons & Button Group</span>
+                              </div>
+                              <Command.Shortcut><Kbd size="sm">B</Kbd></Command.Shortcut>
+                            </Command.Item>
+                          </Command.Group>
+                          <Command.Separator />
+                          <Command.Group heading="Aksi Pengaturan">
+                            <Command.Item onSelect={toggleDarkMode}>
+                              <div className="flex items-center gap-2">
+                                {darkMode ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4 text-slate-500" />}
+                                <span>Ganti Mode Gelap / Terang</span>
+                              </div>
+                              <Command.Shortcut><Kbd size="sm">T</Kbd></Command.Shortcut>
+                            </Command.Item>
+                          </Command.Group>
+                        </Command.List>
+                      </Command>
+                    </div>
+                  </div>
+                </CodePreview>
+
+                <CodePreview
+                  title="Keyboard Keycaps (Kbd)"
+                  description="Menampilkan tombol keyboard dengan visual 3D realistis dan ukuran sm, md, lg:"
+                  code={`<div className="flex items-center gap-2">
+  <Kbd size="sm">⌘</Kbd>
+  <Kbd size="sm">K</Kbd>
+  <Kbd>Ctrl</Kbd>
+  <Kbd>Shift</Kbd>
+  <Kbd>P</Kbd>
+  <Kbd size="lg">Enter ↵</Kbd>
+  <Kbd size="lg">Esc</Kbd>
+</div>`}
+                >
+                  <div className="space-y-4">
+                    <div>
+                      <span className="text-xs text-slate-500 block mb-2 font-medium">Kombinasi Shortcut Umum:</span>
+                      <div className="flex flex-wrap items-center gap-4 text-sm text-slate-700 dark:text-slate-300">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-xs text-slate-400">Cari:</span>
+                          <Kbd size="sm">⌘</Kbd>
+                          <Kbd size="sm">K</Kbd>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-xs text-slate-400">Perintah VSCode:</span>
+                          <Kbd size="sm">Ctrl</Kbd>
+                          <Kbd size="sm">Shift</Kbd>
+                          <Kbd size="sm">P</Kbd>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-xs text-slate-400">Simpan:</span>
+                          <Kbd size="sm">⌘</Kbd>
+                          <Kbd size="sm">S</Kbd>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="pt-2">
+                      <span className="text-xs text-slate-500 block mb-2 font-medium">Variasi Ukuran (sm, md, lg):</span>
+                      <div className="flex items-center gap-3">
+                        <Kbd size="sm">sm (Kecil)</Kbd>
+                        <Kbd size="md">md (Sedang)</Kbd>
+                        <Kbd size="lg">lg (Besar)</Kbd>
+                      </div>
+                    </div>
+                  </div>
+                </CodePreview>
+              </div>
+            </section>
+
+            {/* 22. TOGGLE & TOGGLEGROUP (SHADCN/UI MODERN) */}
+            <section id="toggle-group" className="scroll-mt-24">
+              <div className="border-b border-slate-200 dark:border-slate-800 pb-3 mb-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Badge variant="dark" pill>shadcn/ui Modern</Badge>
+                  <span className="text-xs text-slate-400 font-mono">Interactive Toolbar</span>
+                </div>
+                <h2 className="text-xl sm:text-3xl font-bold tracking-tight">Toggle & ToggleGroup</h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                  Tombol status aktif/nonaktif bergaya toolbar untuk editor teks, perataan paragraf, atau filter kontrol.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <CodePreview
+                  title="Toggle Tunggal & Toolbar Editor Teks"
+                  description="Mendukung multi-select (multiple) untuk format tebal, miring, dan garis bawah, serta single-select untuk perataan teks:"
+                  code={`// Text formatting (multiple selection)
+const [formats, setFormats] = useState(['bold']);
+
+<ToggleGroup type="multiple" value={formats} onValueChange={setFormats}>
+  <ToggleGroup.Item value="bold" aria-label="Bold"><Bold className="w-4 h-4" /></ToggleGroup.Item>
+  <ToggleGroup.Item value="italic" aria-label="Italic"><Italic className="w-4 h-4" /></ToggleGroup.Item>
+  <ToggleGroup.Item value="underline" aria-label="Underline"><Underline className="w-4 h-4" /></ToggleGroup.Item>
+</ToggleGroup>
+
+// Alignment (single selection)
+const [align, setAlign] = useState('center');
+
+<ToggleGroup type="single" value={align} onValueChange={setAlign} variant="outline">
+  <ToggleGroup.Item value="left"><AlignLeft className="w-4 h-4" /></ToggleGroup.Item>
+  <ToggleGroup.Item value="center"><AlignCenter className="w-4 h-4" /></ToggleGroup.Item>
+  <ToggleGroup.Item value="right"><AlignRight className="w-4 h-4" /></ToggleGroup.Item>
+  <ToggleGroup.Item value="justify"><AlignJustify className="w-4 h-4" /></ToggleGroup.Item>
+</ToggleGroup>`}
+                >
+                  <div className="space-y-5">
+                    <div>
+                      <span className="text-xs text-slate-500 block mb-2 font-medium">Toggle Tunggal (Standalone):</span>
+                      <div className="flex items-center gap-2">
+                        <Toggle variant="outline" aria-label="Toggle Bold">
+                          <Bold className="w-4 h-4 mr-1.5" />
+                          <span>Tebal</span>
+                        </Toggle>
+                        <Toggle variant="outline" aria-label="Toggle Italic">
+                          <Italic className="w-4 h-4 mr-1.5" />
+                          <span>Miring</span>
+                        </Toggle>
+                        <Toggle aria-label="Toggle Underline">
+                          <Underline className="w-4 h-4 mr-1.5" />
+                          <span>Garis Bawah</span>
+                        </Toggle>
+                      </div>
+                    </div>
+
+                    <div>
+                      <span className="text-xs text-slate-500 block mb-2 font-medium">Format Teks (Multiple Selection):</span>
+                      <div className="flex items-center gap-3">
+                        <ToggleGroup
+                          type="multiple"
+                          value={toggleFormats}
+                          onValueChange={(val) => setToggleFormats(val)}
+                        >
+                          <ToggleGroup.Item value="bold" title="Tebal (Bold)">
+                            <Bold className="w-4 h-4" />
+                          </ToggleGroup.Item>
+                          <ToggleGroup.Item value="italic" title="Miring (Italic)">
+                            <Italic className="w-4 h-4" />
+                          </ToggleGroup.Item>
+                          <ToggleGroup.Item value="underline" title="Garis Bawah (Underline)">
+                            <Underline className="w-4 h-4" />
+                          </ToggleGroup.Item>
+                        </ToggleGroup>
+                        <span className="text-xs text-slate-500">
+                          Format aktif: <strong>{toggleFormats.join(', ') || 'Normal'}</strong>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <span className="text-xs text-slate-500 block mb-2 font-medium">Perataan Paragraf (Single Selection - Varian Outline):</span>
+                      <div className="flex items-center gap-3">
+                        <ToggleGroup
+                          type="single"
+                          variant="outline"
+                          value={toggleAlign}
+                          onValueChange={(val) => setToggleAlign(val || 'left')}
+                        >
+                          <ToggleGroup.Item value="left" title="Rata Kiri">
+                            <AlignLeft className="w-4 h-4" />
+                          </ToggleGroup.Item>
+                          <ToggleGroup.Item value="center" title="Rata Tengah">
+                            <AlignCenter className="w-4 h-4" />
+                          </ToggleGroup.Item>
+                          <ToggleGroup.Item value="right" title="Rata Kanan">
+                            <AlignRight className="w-4 h-4" />
+                          </ToggleGroup.Item>
+                          <ToggleGroup.Item value="justify" title="Rata Kiri-Kanan">
+                            <AlignJustify className="w-4 h-4" />
+                          </ToggleGroup.Item>
+                        </ToggleGroup>
+                        <span className="text-xs text-slate-500">
+                          Alignment: <strong>{toggleAlign}</strong>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </CodePreview>
+              </div>
+            </section>
+
+            {/* 23. ASPECT RATIO (SHADCN/UI MODERN) */}
+            <section id="aspect-ratio" className="scroll-mt-24">
+              <div className="border-b border-slate-200 dark:border-slate-800 pb-3 mb-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Badge variant="dark" pill>shadcn/ui Modern</Badge>
+                  <span className="text-xs text-slate-400 font-mono">Media Containers</span>
+                </div>
+                <h2 className="text-xl sm:text-3xl font-bold tracking-tight">Aspect Ratio</h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                  Kontainer rasio aspek terjamin (16:9, 4:3, 1:1) untuk gambar, video, dan peta interaktif tanpa lonjakan tata letak (*layout shift*).
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <CodePreview
+                  title="Rasio Aspek 16:9 & 1:1"
+                  description="Memastikan media gambar atau video selalu mempertahankan proporsinya secara konsisten di seluruh ukuran layar:"
+                  code={`<Row gutter={4}>
+  <Col xs={12} md={8}>
+    <AspectRatio ratio={16 / 9}>
+      <img src="..." alt="Widescreen 16:9" />
+    </AspectRatio>
+  </Col>
+  <Col xs={12} md={4}>
+    <AspectRatio ratio={1 / 1}>
+      <img src="..." alt="Square 1:1" />
+    </AspectRatio>
+  </Col>
+</Row>`}
+                >
+                  <Row gutter={4}>
+                    <Col xs={12} md={7} className="mb-4 md:mb-0">
+                      <div className="space-y-1.5">
+                        <span className="text-xs font-semibold text-slate-500 block">Rasio Bioskop / YouTube (16:9):</span>
+                        <AspectRatio ratio={16 / 9} className="shadow-md ring-1 ring-slate-200 dark:ring-slate-800">
+                          <img
+                            src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80"
+                            alt="16:9 Preview"
+                          />
+                        </AspectRatio>
+                      </div>
+                    </Col>
+                    <Col xs={12} md={5}>
+                      <div className="space-y-1.5">
+                        <span className="text-xs font-semibold text-slate-500 block">Rasio Persegi Instagram (1:1):</span>
+                        <AspectRatio ratio={1 / 1} className="shadow-md ring-1 ring-slate-200 dark:ring-slate-800">
+                          <img
+                            src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80"
+                            alt="1:1 Preview"
+                          />
+                        </AspectRatio>
+                      </div>
+                    </Col>
+                  </Row>
+                </CodePreview>
+              </div>
+            </section>
+
+            {/* GLOBAL SPOTLIGHT COMMAND DIALOG */}
+            <Command.Dialog open={openCommand} onOpenChange={setOpenCommand}>
+              <Command>
+                <Command.Input placeholder="Ketik perintah atau cari fitur..." />
+                <Command.List>
+                  <Command.Empty>Tidak ada perintah ditemukan.</Command.Empty>
+                  <Command.Group heading="Saran Cepat">
+                    <Command.Item
+                      onSelect={() => {
+                        setOpenCommand(false);
+                        const el = document.getElementById('grid');
+                        el?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <LayoutGrid className="w-4 h-4 text-blue-500" />
+                        <span>Sistem Grid Responsif</span>
+                      </div>
+                      <Command.Shortcut><Kbd size="sm">G</Kbd></Command.Shortcut>
+                    </Command.Item>
+                    <Command.Item
+                      onSelect={() => {
+                        setOpenCommand(false);
+                        const el = document.getElementById('buttons');
+                        el?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="w-4 h-4 text-emerald-500" />
+                        <span>Buttons & Button Group</span>
+                      </div>
+                      <Command.Shortcut><Kbd size="sm">B</Kbd></Command.Shortcut>
+                    </Command.Item>
+                    <Command.Item
+                      onSelect={() => {
+                        setOpenCommand(false);
+                        const el = document.getElementById('steps-timeline');
+                        el?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-4 h-4 text-purple-500" />
+                        <span>Steps & Timeline (AntD)</span>
+                      </div>
+                      <Command.Shortcut><Kbd size="sm">S</Kbd></Command.Shortcut>
+                    </Command.Item>
+                    <Command.Item
+                      onSelect={() => {
+                        setOpenCommand(false);
+                        const el = document.getElementById('command-kbd');
+                        el?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Terminal className="w-4 h-4 text-slate-800 dark:text-slate-200" />
+                        <span>Command & Kbd (shadcn/ui)</span>
+                      </div>
+                      <Command.Shortcut><Kbd size="sm">K</Kbd></Command.Shortcut>
+                    </Command.Item>
+                  </Command.Group>
+                  <Command.Separator />
+                  <Command.Group heading="Aksi & Pengaturan">
+                    <Command.Item
+                      onSelect={() => {
+                        toggleDarkMode();
+                        setOpenCommand(false);
+                      }}
+                    >
+                      <div className="flex items-center gap-2">
+                        {darkMode ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4 text-slate-500" />}
+                        <span>Ganti Tema ({darkMode ? 'Terang' : 'Gelap'})</span>
+                      </div>
+                      <Command.Shortcut><Kbd size="sm">T</Kbd></Command.Shortcut>
+                    </Command.Item>
+                    <Command.Item
+                      onSelect={() => {
+                        setShowModal(true);
+                        setOpenCommand(false);
+                      }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Sliders className="w-4 h-4 text-indigo-500" />
+                        <span>Buka Modal Dialog</span>
+                      </div>
+                      <Command.Shortcut><Kbd size="sm">M</Kbd></Command.Shortcut>
+                    </Command.Item>
+                  </Command.Group>
+                </Command.List>
+              </Command>
+            </Command.Dialog>
+
             {/* FOOTER */}
             <footer className="pt-8 pb-12 border-t border-slate-200 dark:border-slate-800 text-center text-xs text-slate-400">
               <p className="font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                React Bootstrap + Ant Design Hybrid Component Library (Tailwind Powered)
+                React Bootstrap 5 + Ant Design + shadcn/ui Hybrid Component Library (Tailwind Powered)
               </p>
               <p>
-                Kombinasi fleksibilitas layout Bootstrap 5 dan kekuatan fitur enterprise Ant Design dengan 100% utilitas Tailwind CSS.
+                Kombinasi fleksibilitas layout Bootstrap 5, kekuatan enterprise Ant Design, dan kecanggihan interaktif modern shadcn/ui dengan 100% utilitas Tailwind CSS.
               </p>
             </footer>
 

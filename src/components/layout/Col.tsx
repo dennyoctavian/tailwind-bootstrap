@@ -117,7 +117,7 @@ export const Col: React.FC<ColProps> = ({
   ...props
 }) => {
   const getColClasses = () => {
-    const classes: string[] = ['px-2 sm:px-3 flex-shrink-0 max-w-full box-border']; // Bootstrap standard padding gutters
+    const classes: string[] = ['px-2 sm:px-3 flex-shrink-0 max-w-full min-w-0 box-border']; // Bootstrap standard padding gutters
     
     // Default to w-full if no xs specified or auto flex-1 if nothing provided at all
     if (!xs && !sm && !md && !lg && !xl) {

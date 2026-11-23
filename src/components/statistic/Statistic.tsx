@@ -8,6 +8,7 @@ export interface StatisticProps extends Omit<React.HTMLAttributes<HTMLDivElement
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
   trend?: 'up' | 'down' | 'neutral';
+  trendValue?: React.ReactNode;
   precision?: number;
 }
 
@@ -17,6 +18,7 @@ export const Statistic: React.FC<StatisticProps> = ({
   prefix,
   suffix,
   trend,
+  trendValue,
   precision,
   className,
   ...props
@@ -27,31 +29,52 @@ export const Statistic: React.FC<StatisticProps> = ({
       : value;
 
   return (
-    <div className={cn('p-4 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm', className)} {...props}>
+    <div
+      className={cn(
+        'p-3.5 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm min-w-0 w-full overflow-hidden flex flex-col justify-between',
+        className
+      )}
+      {...props}
+    >
       {title && (
-        <div className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mb-1.5 flex items-center justify-between">
-          <span>{title}</span>
+        <div className="flex items-center justify-between gap-1.5 min-w-0 mb-2">
+          <span
+            className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 truncate min-w-0 flex-1"
+            title={typeof title === 'string' ? title : undefined}
+          >
+            {title}
+          </span>
           {trend && (
             <span
               className={cn(
-                'inline-flex items-center text-xs font-bold px-1.5 py-0.5 rounded-full',
+                'inline-flex items-center text-[10px] sm:text-xs font-bold px-1.5 py-0.5 rounded-full shrink-0 whitespace-nowrap',
                 trend === 'up' && 'text-emerald-700 bg-emerald-100 dark:bg-emerald-950/60 dark:text-emerald-300',
                 trend === 'down' && 'text-red-700 bg-red-100 dark:bg-red-950/60 dark:text-red-300',
                 trend === 'neutral' && 'text-slate-600 bg-slate-100 dark:bg-slate-800 dark:text-slate-400'
               )}
             >
-              {trend === 'up' && <ArrowUpRight className="w-3.5 h-3.5 mr-0.5" />}
-              {trend === 'down' && <ArrowDownRight className="w-3.5 h-3.5 mr-0.5" />}
-              {trend === 'up' ? '+12.5%' : trend === 'down' ? '-4.2%' : '0%'}
+              {trend === 'up' && <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-0.5" />}
+              {trend === 'down' && <ArrowDownRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-0.5" />}
+              {trendValue || (trend === 'up' ? '+12.5%' : trend === 'down' ? '-4.2%' : '0%')}
             </span>
           )}
         </div>
       )}
 
-      <div className="flex items-baseline gap-1.5 font-bold tracking-tight text-slate-900 dark:text-white">
-        {prefix && <span className="text-lg sm:text-xl font-medium text-slate-500 dark:text-slate-400">{prefix}</span>}
-        <span className="text-2xl sm:text-3xl font-extrabold">{formattedValue}</span>
-        {suffix && <span className="text-xs sm:text-sm font-semibold text-slate-400 ml-1">{suffix}</span>}
+      <div className="flex items-baseline flex-wrap gap-x-1.5 gap-y-0.5 font-bold tracking-tight text-slate-900 dark:text-white min-w-0">
+        {prefix && (
+          <span className="text-sm sm:text-base md:text-lg font-medium text-slate-500 dark:text-slate-400 shrink-0">
+            {prefix}
+          </span>
+        )}
+        <span className="text-xl sm:text-2xl lg:text-3xl font-extrabold truncate max-w-full">
+          {formattedValue}
+        </span>
+        {suffix && (
+          <span className="text-xs sm:text-sm font-semibold text-slate-400 shrink-0">
+            {suffix}
+          </span>
+        )}
       </div>
     </div>
   );
