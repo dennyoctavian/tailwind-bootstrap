@@ -127,7 +127,8 @@ import {
   Button, Card, Alert, 
   Modal,
   Statistic, Steps, Timeline, Rate, Avatar, Tag, Segmented, Result,
-  Command, Kbd, Toggle, ToggleGroup, AspectRatio
+  Command, Kbd, Toggle, ToggleGroup, AspectRatio,
+  PinInput, CopyButton, NumberInput, FileDropzone, ColorSwatch, ColorSwatchGroup
 } from 'react-bootstrap-tailwind-ui';
 
 export default function Dashboard() {

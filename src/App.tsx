@@ -54,6 +54,12 @@ import {
   AspectRatio,
   Toggle,
   ToggleGroup,
+  PinInput,
+  CopyButton,
+  NumberInput,
+  FileDropzone,
+  ColorSwatch,
+  ColorSwatchGroup,
 } from './components';
 
 import {
@@ -90,6 +96,9 @@ import {
   AlignRight,
   AlignJustify,
   Search,
+  KeyRound,
+  Copy,
+  UploadCloud,
 } from 'lucide-react';
 
 export default function App() {
@@ -144,6 +153,12 @@ export default function App() {
   const [openCommand, setOpenCommand] = useState(false);
   const [toggleFormats, setToggleFormats] = useState<string[]>(['bold']);
   const [toggleAlign, setToggleAlign] = useState<string>('center');
+
+  // Modern Toolkit Demo States
+  const [otpCode, setOtpCode] = useState('');
+  const [pinMask, setPinMask] = useState(false);
+  const [cartQty, setCartQty] = useState(2);
+  const [activeColor, setActiveColor] = useState('#2563eb');
 
   useEffect(() => {
     if (darkMode) {
@@ -240,6 +255,14 @@ export default function App() {
         { id: 'aspect-ratio', label: 'Aspect Ratio', icon: <Images className="w-4 h-4" /> },
       ],
     },
+    {
+      title: 'Modern High-Utility Toolkit',
+      links: [
+        { id: 'pin-input', label: 'Pin / OTP Input', icon: <KeyRound className="w-4 h-4" /> },
+        { id: 'copy-number', label: 'CopyButton & NumberInput', icon: <Copy className="w-4 h-4" /> },
+        { id: 'file-color', label: 'FileDropzone & ColorSwatch', icon: <UploadCloud className="w-4 h-4" /> },
+      ],
+    },
   ];
 
   // MAIN PAGE CONTENT COMPONENT
@@ -272,6 +295,12 @@ export default function App() {
               <span className="inline-flex items-center gap-1 text-slate-800 dark:text-slate-200 font-semibold">
                 <Terminal className="w-3.5 h-3.5" />
                 shadcn/ui
+              </span>
+            </Nav.Link>
+            <Nav.Link inNavbar href="#pin-input">
+              <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-semibold">
+                <KeyRound className="w-3.5 h-3.5" />
+                Toolkit
               </span>
             </Nav.Link>
             <Nav.Link inNavbar href="#forms">Form</Nav.Link>
@@ -2167,6 +2196,248 @@ const [align, setAlign] = useState('center');
               </div>
             </section>
 
+            {/* 24. PIN / OTP INPUT (MODERN TOOLKIT) */}
+            <section id="pin-input" className="scroll-mt-24">
+              <div className="border-b border-slate-200 dark:border-slate-800 pb-3 mb-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Badge variant="success" pill>Modern Toolkit</Badge>
+                  <span className="text-xs text-slate-400 font-mono">Verification & Auth</span>
+                </div>
+                <h2 className="text-xl sm:text-3xl font-bold tracking-tight">Pin / OTP Input</h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                  Input verifikasi kode OTP / PIN satu digit per kotak dengan auto-focus otomatis, navigasi backspace mundur, dan dukungan *paste* teks langsung.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <CodePreview
+                  title="Input Kode OTP 6 Digit"
+                  description="Ketik atau tempel (paste) kode verifikasi 6 digit dari SMS atau WhatsApp:"
+                  code={`const [otp, setOtp] = useState('');
+
+<PinInput
+  length={6}
+  value={otp}
+  onChange={setOtp}
+  onComplete={(code) => alert('Kode OTP lengkap: ' + code)}
+/>
+<p>Kode saat ini: {otp}</p>`}
+                >
+                  <div className="p-4 bg-slate-50/50 dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 space-y-4">
+                    <div>
+                      <span className="text-xs text-slate-500 block mb-3 font-medium">Masukkan Kode Verifikasi (6 Digit):</span>
+                      <PinInput
+                        length={6}
+                        value={otpCode}
+                        onChange={setOtpCode}
+                        onComplete={(code) =>
+                          addToast({
+                            title: 'OTP Lengkap!',
+                            message: `Kode ${code} siap diverifikasi ke server.`,
+                            variant: 'success',
+                          })
+                        }
+                      />
+                    </div>
+
+                    <div className="flex items-center gap-2 text-xs text-slate-500">
+                      <span>Nilai input:</span>
+                      <strong className="font-mono text-slate-900 dark:text-white bg-slate-200 dark:bg-slate-800 px-2 py-0.5 rounded">
+                        {otpCode || 'Belum diisi'}
+                      </strong>
+                    </div>
+                  </div>
+                </CodePreview>
+
+                <CodePreview
+                  title="PIN 4 Digit dengan Masking Titik Rahasia"
+                  description="Cocok untuk PIN transaksi keuangan atau password akun:"
+                  code={`const [mask, setMask] = useState(true);
+
+<PinInput length={4} mask={mask} size="lg" />
+<Button onClick={() => setMask(!mask)}>
+  {mask ? 'Tampilkan PIN' : 'Sembunyikan PIN'}
+</Button>`}
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <PinInput length={4} mask={pinMask} size="lg" />
+                    <Button
+                      variant="outline-secondary"
+                      size="sm"
+                      onClick={() => setPinMask(!pinMask)}
+                    >
+                      {pinMask ? '👁️ Tampilkan Angka' : '🔒 Sembunyikan (Masking)'}
+                    </Button>
+                  </div>
+                </CodePreview>
+              </div>
+            </section>
+
+            {/* 25. COPYBUTTON & NUMBERINPUT (MODERN TOOLKIT) */}
+            <section id="copy-number" className="scroll-mt-24">
+              <div className="border-b border-slate-200 dark:border-slate-800 pb-3 mb-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Badge variant="success" pill>Modern Toolkit</Badge>
+                  <span className="text-xs text-slate-400 font-mono">Utility Actions</span>
+                </div>
+                <h2 className="text-xl sm:text-3xl font-bold tracking-tight">CopyButton & NumberInput</h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                  Tombol salin ke clipboard sekali klik dengan animasi konfirmasi centang, serta stepper jumlah kuantitas produk belanja.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <CodePreview
+                  title="Tombol Salin Clipboard (CopyButton)"
+                  description="Otomatis menyalin teks ke clipboard pengguna dan beralih ke ikon centang 'Tersalin!':"
+                  code={`<div className="flex items-center gap-2">
+  <input value="https://myapp.com/invite/ref-8921" readOnly className="border px-3 py-1.5 rounded" />
+  <CopyButton value="https://myapp.com/invite/ref-8921" />
+</div>`}
+                >
+                  <div className="space-y-4">
+                    <div>
+                      <span className="text-xs text-slate-500 block mb-2 font-medium">Salin Tautan Referensi / Kupon:</span>
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 max-w-md">
+                        <div className="flex-1 px-3 py-2 text-xs font-mono rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 truncate">
+                          DISKON-RAMADHAN-2026
+                        </div>
+                        <CopyButton
+                          value="DISKON-RAMADHAN-2026"
+                          onCopySuccess={() =>
+                            addToast({ title: 'Tersalin!', message: 'Kode kupon berhasil disalin ke clipboard.', variant: 'success' })
+                          }
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <span className="text-xs text-slate-500 block mb-2 font-medium">Varian Tombol (Outline & Subtle):</span>
+                      <div className="flex items-center gap-2">
+                        <CopyButton value="git clone https://github.com/dennyoctavian/tailwind-bootstrap.git" variant="outline" label="Salin URL Git" />
+                        <CopyButton value="API_KEY_LIVE_9981248" variant="subtle" label="Salin API Key" />
+                      </div>
+                    </div>
+                  </div>
+                </CodePreview>
+
+                <CodePreview
+                  title="Stepper Kuantitas Angka (NumberInput)"
+                  description="Sangat ideal untuk keranjang belanja e-commerce dengan kontrol batas minimal dan maksimal:"
+                  code={`const [qty, setQty] = useState(2);
+
+<div className="flex items-center gap-3">
+  <span>Jumlah Produk:</span>
+  <NumberInput
+    value={qty}
+    onChange={setQty}
+    min={1}
+    max={10}
+  />
+  <span>Total: Rp {qty * 150000}</span>
+</div>`}
+                >
+                  <div className="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 space-y-4 max-w-md">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">Kemeja Linen Premium</h4>
+                        <span className="text-xs text-slate-500">Rp 175.000 / pcs</span>
+                      </div>
+                      <NumberInput
+                        value={cartQty}
+                        onChange={setCartQty}
+                        min={1}
+                        max={10}
+                      />
+                    </div>
+                    <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs sm:text-sm">
+                      <span className="text-slate-500">Total Harga ({cartQty} barang):</span>
+                      <strong className="text-blue-600 dark:text-blue-400 font-bold">
+                        Rp {(cartQty * 175000).toLocaleString('id-ID')}
+                      </strong>
+                    </div>
+                  </div>
+                </CodePreview>
+              </div>
+            </section>
+
+            {/* 26. FILEDROPZONE & COLORSWATCH (MODERN TOOLKIT) */}
+            <section id="file-color" className="scroll-mt-24">
+              <div className="border-b border-slate-200 dark:border-slate-800 pb-3 mb-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Badge variant="success" pill>Modern Toolkit</Badge>
+                  <span className="text-xs text-slate-400 font-mono">Upload & Palette</span>
+                </div>
+                <h2 className="text-xl sm:text-3xl font-bold tracking-tight">FileDropzone & ColorSwatch</h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                  Area drag-and-drop unggah berkas modern dan palet pemilih warna produk interaktif.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <CodePreview
+                  title="Area Unggah Berkas Drag & Drop (FileDropzone)"
+                  description="Seret berkas dari komputer atau klik area di bawah untuk memilih file dengan pratinjau daftar berkas:"
+                  code={`<FileDropzone
+  maxSizeMb={5}
+  accept="image/*,.pdf"
+  onFilesChange={(files) => console.log('File diunggah:', files)}
+/>`}
+                >
+                  <FileDropzone
+                    maxSizeMb={5}
+                    title="Klik atau seret foto/dokumen ke sini"
+                    description="Mendukung JPG, PNG, PDF hingga maksimal 5MB"
+                  />
+                </CodePreview>
+
+                <CodePreview
+                  title="Pilihan Warna Lingkaran (ColorSwatch & Group)"
+                  description="Sangat populer untuk memilih varian warna baju/gadget pada halaman detail produk e-commerce:"
+                  code={`const [color, setColor] = useState('#2563eb');
+
+<ColorSwatchGroup
+  value={color}
+  onChange={setColor}
+  colors={['#2563eb', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#0f172a']}
+/>`}
+                >
+                  <div className="space-y-4">
+                    <div>
+                      <span className="text-xs text-slate-500 block mb-2 font-medium">Swatch Tunggal Berukuran sm, md, lg:</span>
+                      <div className="flex items-center gap-3">
+                        <ColorSwatch color="#2563eb" selected size="sm" />
+                        <ColorSwatch color="#10b981" selected size="md" />
+                        <ColorSwatch color="#f59e0b" selected size="lg" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <span className="text-xs text-slate-500 block mb-2 font-medium">Pilih Varian Warna Produk (Group):</span>
+                      <ColorSwatchGroup
+                        value={activeColor}
+                        onChange={setActiveColor}
+                        colors={[
+                          '#2563eb', // Royal Blue
+                          '#10b981', // Emerald Green
+                          '#f59e0b', // Amber Gold
+                          '#ef4444', // Ruby Red
+                          '#8b5cf6', // Violet Purple
+                          '#ec4899', // Pink Magenta
+                          '#0f172a', // Midnight Black
+                        ]}
+                      />
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-slate-500">
+                      <span>Warna aktif:</span>
+                      <div className="w-3.5 h-3.5 rounded-full ring-1 ring-slate-300" style={{ backgroundColor: activeColor }} />
+                      <strong className="font-mono">{activeColor}</strong>
+                    </div>
+                  </div>
+                </CodePreview>
+              </div>
+            </section>
+
             {/* GLOBAL SPOTLIGHT COMMAND DIALOG */}
             <Command.Dialog open={openCommand} onOpenChange={setOpenCommand}>
               <Command>
@@ -2226,6 +2497,19 @@ const [align, setAlign] = useState('center');
                       </div>
                       <Command.Shortcut><Kbd size="sm">K</Kbd></Command.Shortcut>
                     </Command.Item>
+                    <Command.Item
+                      onSelect={() => {
+                        setOpenCommand(false);
+                        const el = document.getElementById('pin-input');
+                        el?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <KeyRound className="w-4 h-4 text-emerald-500" />
+                        <span>Pin / OTP Input (Toolkit)</span>
+                      </div>
+                      <Command.Shortcut><Kbd size="sm">O</Kbd></Command.Shortcut>
+                    </Command.Item>
                   </Command.Group>
                   <Command.Separator />
                   <Command.Group heading="Aksi & Pengaturan">
@@ -2261,10 +2545,10 @@ const [align, setAlign] = useState('center');
             {/* FOOTER */}
             <footer className="pt-8 pb-12 border-t border-slate-200 dark:border-slate-800 text-center text-xs text-slate-400">
               <p className="font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                React Bootstrap 5 + Ant Design + shadcn/ui Hybrid Component Library (Tailwind Powered)
+                React Bootstrap 5 + Ant Design + shadcn/ui + Mantine Modern Hybrid UI Kit (Tailwind Powered)
               </p>
               <p>
-                Kombinasi fleksibilitas layout Bootstrap 5, kekuatan enterprise Ant Design, dan kecanggihan interaktif modern shadcn/ui dengan 100% utilitas Tailwind CSS.
+                Koleksi lengkap 45+ komponen UI siap pakai: Layout Bootstrap, Enterprise Ant Design, Developer Primitives shadcn/ui, dan High-Utility Toolkit modern dengan 100% utilitas Tailwind CSS.
               </p>
             </footer>
 
