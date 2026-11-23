@@ -1,8 +1,10 @@
-# React Bootstrap Tailwind UI (100% Bootstrap 5 Complete & Responsive)
+# React Bootstrap + Ant Design Hybrid UI (Tailwind CSS)
 
 [![GitHub Repo](https://img.shields.io/badge/GitHub-dennyoctavian%2Ftailwind--bootstrap-blue?logo=github)](https://github.com/dennyoctavian/tailwind-bootstrap)
 
-Proyek React + TypeScript modern dengan kumpulan **SELURUH komponen standar Bootstrap 5** yang dibangun menggunakan utility styling dari **Tailwind CSS**. Setiap komponen dirancang dengan prinsip **Mobile-First Responsive Design** agar tampil rapi dan nyaman digunakan di smartphone, tablet, maupun layar desktop lebar.
+Proyek React + TypeScript modern yang memadukan **100% komponen standar Bootstrap 5** dengan komponen **Enterprise Ant Design (AntD)** yang tidak ada di Bootstrap, dibangun secara murni menggunakan utility styling dari **Tailwind CSS**.
+
+Kombinasi ini menghasilkan UI Kit yang sangat tangguh: kemudahan layout responsif dan form dari Bootstrap berpadu sempurna dengan fitur dashboard enterprise, alur multi-langkah, dan audit trail dari Ant Design.
 
 👉 **[Baca Panduan Lengkap Instalasi & Kustomisasi Komponen (PANDUAN_INSTALLASI_DAN_KUSTOMISASI.md)](./PANDUAN_INSTALLASI_DAN_KUSTOMISASI.md)**
 
@@ -72,6 +74,25 @@ Proyek ini telah mencakup **100% komponen resmi Bootstrap 5**:
 
 ---
 
+## ⚡ Tambahan Komponen Ant Design (AntD Hybrid)
+
+Untuk melengkapi keterbatasan Bootstrap dalam kebutuhan aplikasi enterprise dan dashboard modern, proyek ini menambahkan **10 komponen unggulan dari Ant Design**:
+
+| No | Komponen Ant Design | Komponen di Proyek Ini | Keunggulan Dibandingkan Bootstrap |
+|:---|:---|:---|:---|
+| 1 | **Steps** | `Steps` | Alur pendaftaran multi-langkah (*wizard*) interaktif dengan status tunggu/proses/selesai/error responsif. |
+| 2 | **Timeline** | `Timeline`, `Timeline.Item` | Pelacakan kronologis pengiriman ekspedisi, riwayat tiket support, dan audit log sistem. |
+| 3 | **Statistic** | `Statistic` | Kartu indikator KPI dashboard dengan badge tren kenaikan/penurunan hijau/merah, prefix mata uang, dan presisi desimal. |
+| 4 | **Rate** | `Rate` | Sistem penilaian bintang 5 interaktif dengan tooltip umpan balik skor realtime. |
+| 5 | **Avatar & Group** | `Avatar`, `Avatar.Group` | Foto profil inisial otomatis dengan titik status aktif (online/busy/away) dan susunan tumpuk +extra counter. |
+| 6 | **Tag** | `Tag` | Label kategori warna-warni lembut dengan dukungan tombol hapus (*closable*) dan filter interaktif (*checkable*). |
+| 7 | **Segmented** | `Segmented` | Kontrol geser bergaya pil (*sliding toggle*) alternatif yang jauh lebih ringkas dari tabs atau radio button. |
+| 8 | **Divider** | `Divider` | Garis pemisah dengan teks judul di posisi kiri, tengah, atau kanan, serta garis putus-putus (*dashed*). |
+| 9 | **Empty** | `Empty` | Ilustrasi status data kosong yang informatif lengkap dengan tombol aksi (*call to action*). |
+| 10 | **Result** | `Result` | Layar konfirmasi transaksi sukses, halaman galat 404, 403, 500, dan peringatan dengan tombol navigasi. |
+
+---
+
 ## 📱 Fitur Responsivitas Utama
 
 1. **Pendekatan Mobile-First:** Semua elemen menggunakan span 12 kolom secara default di ponsel (`xs`) dan secara proporsional membagi kolom pada layar tablet (`sm`/`md`) dan desktop (`lg`/`xl`).
@@ -80,15 +101,17 @@ Proyek ini telah mencakup **100% komponen resmi Bootstrap 5**:
 4. **Offcanvas Drawer:** Menu samping untuk kenyamanan navigasi satu tangan di perangkat mobile.
 5. **Tabel Horizontal Scroll:** Mencegah kolom tabel menghimpit atau merusak tata letak di layar kecil.
 6. **Tabs Horizontal Swipe:** Tabulasi dapat digeser ke samping jika judul tab melebihi lebar layar.
+7. **Steps Responsive Mode:** Otomatis berubah dari orientasi horizontal ke orientasi tumpuk vertikal di layar smartphone.
 
 ---
 
 ## 📦 Impor Komponen
 
-Semua komponen dapat diimpor langsung dari `src/components`:
+Semua komponen dapat diimpor langsung dari paket `react-bootstrap-tailwind-ui` (atau `./src/components`):
 
 ```tsx
 import {
+  // Bootstrap Standard Components
   Container, Row, Col,
   Button, ButtonGroup, CloseButton,
   Badge, Alert,
@@ -99,9 +122,20 @@ import {
   Tooltip, Popover, Placeholder,
   Accordion, Dropdown,
   FormGroup, FormLabel, FormControl, FormSelect, FormCheck, FormSwitch, InputGroup, FloatingLabel, FormRange,
-  Table,
-  ProgressBar, Spinner,
+  Table, ProgressBar, Spinner,
   Tabs,
-  Toast, ToastContainer, useToast
+  Toast, ToastContainer, useToast,
+
+  // Ant Design Hybrid (Enterprise Components)
+  Steps,
+  Timeline,
+  Statistic,
+  Rate,
+  Avatar,
+  Tag,
+  Segmented,
+  Divider,
+  Empty,
+  Result
 } from 'react-bootstrap-tailwind-ui';
 ```

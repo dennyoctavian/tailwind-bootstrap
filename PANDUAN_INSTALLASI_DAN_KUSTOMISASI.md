@@ -121,23 +121,59 @@ npm install lucide-react clsx tailwind-merge
 Di dalam file komponen proyek baru Anda (misalnya `src/App.tsx` atau `src/pages/Dashboard.tsx`):
 
 ```tsx
+import { useState } from 'react';
 import { 
   Container, Row, Col, 
   Button, Card, Alert, 
-  Modal, useState 
+  Modal,
+  Statistic, Steps, Timeline, Rate, Avatar, Tag, Segmented, Result
 } from 'react-bootstrap-tailwind-ui';
 
 export default function Dashboard() {
   const [showModal, setShowModal] = useState(false);
+  const [activeStep, setActiveStep] = useState(1);
+  const [rate, setRate] = useState(5);
 
   return (
-    <Container className="py-8">
+    <Container className="py-8 space-y-8">
       {/* Notifikasi Alert */}
-      <Alert variant="primary" dismissible className="mb-6">
-        Selamat datang di dashboard! Komponen ini diimpor langsung dari GitHub.
+      <Alert variant="primary" dismissible>
+        Selamat datang di dashboard! Komponen Bootstrap + Ant Design diimpor langsung dari GitHub.
       </Alert>
 
-      {/* Grid Responsif */}
+      {/* METRIK DASHBOARD (Ant Design Statistic) */}
+      <Row gutter={4}>
+        <Col xs={12} sm={6} lg={3}>
+          <Statistic title="Total Penjualan" value="184.250.000" prefix="Rp " trend="up" />
+        </Col>
+        <Col xs={12} sm={6} lg={3}>
+          <Statistic title="Pengguna Aktif" value="1.420" suffix=" org" trend="up" />
+        </Col>
+        <Col xs={12} sm={6} lg={3}>
+          <Statistic title="Rata-rata Rating" value={4.9} precision={1} suffix="/ 5.0" />
+        </Col>
+        <Col xs={12} sm={6} lg={3}>
+          <Statistic title="Keluhan Terbuka" value="0" trend="neutral" />
+        </Col>
+      </Row>
+
+      {/* ALUR KERJA (Ant Design Steps) */}
+      <Card>
+        <Card.Body>
+          <Card.Title className="mb-4">Status Verifikasi Akun</Card.Title>
+          <Steps
+            current={activeStep}
+            onChange={setActiveStep}
+            items={[
+              { title: 'Daftar', description: 'Buat akun' },
+              { title: 'Verifikasi KYC', description: 'Upload KTP' },
+              { title: 'Aktif', description: 'Akun siap pakai' },
+            ]}
+          />
+        </Card.Body>
+      </Card>
+
+      {/* Grid Responsif Standar Bootstrap */}
       <Row gutter={4}>
         <Col xs={12} md={6} lg={4}>
           <Card hoverable>

@@ -39,6 +39,16 @@ import {
   Popover,
   Placeholder,
   CodePreview,
+  Timeline,
+  Steps,
+  Statistic,
+  Rate,
+  Avatar,
+  Empty,
+  Result,
+  Segmented,
+  Divider,
+  Tag,
 } from './components';
 
 import {
@@ -60,6 +70,12 @@ import {
   List,
   MessageSquare,
   BookOpen,
+  Clock,
+  TrendingUp,
+  UserCheck,
+  Inbox,
+  SplitSquareVertical,
+  Sparkles,
 } from 'lucide-react';
 
 export default function App() {
@@ -98,6 +114,17 @@ export default function App() {
   const [formEmail, setFormEmail] = useState('');
   const [formAgree, setFormAgree] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+
+  // Ant Design Hybrid Demo States
+  const [activeStep, setActiveStep] = useState(1);
+  const [rateVal, setRateVal] = useState(4);
+  const [segmentedPeriod, setSegmentedPeriod] = useState('Bulan Ini');
+  const [selectedTags, setSelectedTags] = useState<string[]>(['React', 'Tailwind']);
+  const toggleTag = (tag: string) => {
+    setSelectedTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
+  };
 
   useEffect(() => {
     if (darkMode) {
@@ -176,6 +203,16 @@ export default function App() {
         { id: 'progress-spinners', label: 'Progress & Spinners', icon: <Sliders className="w-4 h-4" /> },
       ],
     },
+    {
+      title: 'Ant Design Hybrid (Enterprise)',
+      links: [
+        { id: 'steps-timeline', label: 'Steps & Timeline', icon: <Clock className="w-4 h-4" /> },
+        { id: 'statistic-rate', label: 'Statistic & Rate', icon: <TrendingUp className="w-4 h-4" /> },
+        { id: 'avatar-tag', label: 'Avatar & Tag', icon: <UserCheck className="w-4 h-4" /> },
+        { id: 'segmented-divider', label: 'Segmented & Divider', icon: <SplitSquareVertical className="w-4 h-4" /> },
+        { id: 'empty-result', label: 'Empty & Result State', icon: <Inbox className="w-4 h-4" /> },
+      ],
+    },
   ];
 
   // MAIN PAGE CONTENT COMPONENT
@@ -198,6 +235,12 @@ export default function App() {
             <Nav.Link inNavbar href="#overview" active>Dokumentasi</Nav.Link>
             <Nav.Link inNavbar href="#grid">Layout</Nav.Link>
             <Nav.Link inNavbar href="#buttons">Komponen</Nav.Link>
+            <Nav.Link inNavbar href="#steps-timeline">
+              <span className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-semibold">
+                <Sparkles className="w-3.5 h-3.5" />
+                AntD Hybrid
+              </span>
+            </Nav.Link>
             <Nav.Link inNavbar href="#forms">Form</Nav.Link>
           </Nav>
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-3 lg:pt-0 w-full lg:w-auto border-t lg:border-t-0 border-slate-200 dark:border-slate-700">
@@ -1217,13 +1260,559 @@ export default function App() {
               </CodePreview>
             </section>
 
+            {/* 16. STEPS & TIMELINE (ANT DESIGN HYBRID) */}
+            <section id="steps-timeline" className="scroll-mt-24">
+              <div className="border-b border-slate-200 dark:border-slate-800 pb-3 mb-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Badge variant="primary" pill>Ant Design Hybrid</Badge>
+                  <span className="text-xs text-slate-400 font-mono">Enterprise Flow</span>
+                </div>
+                <h2 className="text-xl sm:text-3xl font-bold tracking-tight">Steps & Timeline</h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                  Komponen alur multi-langkah (*stepper/wizard*) dan pelacakan riwayat aktivitas berurutan (*audit trail / log status*).
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <CodePreview
+                  title="Steps Multi-Langkah Interaktif"
+                  description="Mendukung navigasi dinamis, indikator status selesai/aktif/tunggu/error, serta otomatis beradaptasi pada layar ponsel:"
+                  code={`const [activeStep, setActiveStep] = useState(1);
+
+<Steps
+  current={activeStep}
+  onChange={setActiveStep}
+  items={[
+    { title: 'Identitas', description: 'Verifikasi akun KTP' },
+    { title: 'Pembayaran', description: 'Pilih metode transfer' },
+    { title: 'Konfirmasi', description: 'Order siap diproses' },
+  ]}
+/>
+
+<div className="flex gap-2 mt-4">
+  <Button disabled={activeStep === 0} onClick={() => setActiveStep(activeStep - 1)}>Sebelumnya</Button>
+  <Button disabled={activeStep === 2} onClick={() => setActiveStep(activeStep + 1)}>Selanjutnya</Button>
+</div>`}
+                >
+                  <div className="p-4 bg-slate-50/50 dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 space-y-6">
+                    <Steps
+                      current={activeStep}
+                      onChange={setActiveStep}
+                      items={[
+                        { title: 'Identitas Akun', description: 'Data diri & KYC' },
+                        { title: 'Metode Bayar', description: 'Transfer atau QRIS' },
+                        { title: 'Selesai & Aktif', description: 'Akses langsung terbuka' },
+                      ]}
+                    />
+
+                    <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800">
+                      <Button
+                        variant="outline-secondary"
+                        size="sm"
+                        disabled={activeStep === 0}
+                        onClick={() => setActiveStep((prev) => Math.max(0, prev - 1))}
+                      >
+                        ← Sebelumnya
+                      </Button>
+                      <span className="text-xs text-slate-500 font-medium">
+                        Langkah {activeStep + 1} dari 3
+                      </span>
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        disabled={activeStep === 2}
+                        onClick={() => setActiveStep((prev) => Math.min(2, prev + 1))}
+                      >
+                        Selanjutnya →
+                      </Button>
+                    </div>
+                  </div>
+                </CodePreview>
+
+                <CodePreview
+                  title="Timeline Audit Trail & Pelacakan Kurir"
+                  description="Visualisasi urutan kronologis pengiriman barang atau riwayat status sistem:"
+                  code={`<Timeline mode="left">
+  <Timeline.Item color="blue" label="10:30 WIB">
+    <span className="font-semibold">Pesanan Dibuat</span>
+    <p className="text-xs text-slate-500">Pelanggan menyelesaikan checkout pembayaran</p>
+  </Timeline.Item>
+  <Timeline.Item color="purple" label="11:15 WIB">
+    <span className="font-semibold">Pembayaran Terverifikasi</span>
+    <p className="text-xs text-slate-500">Pembayaran Rp 450.000 via QRIS otomatis diverifikasi</p>
+  </Timeline.Item>
+  <Timeline.Item color="amber" label="13:40 WIB">
+    <span className="font-semibold">Diproses Gudang</span>
+    <p className="text-xs text-slate-500">Barang sedang dikemas & diberi label resi</p>
+  </Timeline.Item>
+  <Timeline.Item color="green" label="15:00 WIB">
+    <span className="font-semibold text-emerald-600">Dalam Pengiriman Kurir</span>
+    <p className="text-xs text-slate-500">Kurir JNE (Resi #BDG-899120) menuju alamat tujuan</p>
+  </Timeline.Item>
+  <Timeline.Item color="gray" label="Estimasi">
+    <span className="text-slate-400">Paket Diterima</span>
+  </Timeline.Item>
+</Timeline>`}
+                >
+                  <div className="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-lg">
+                    <Timeline mode="left">
+                      <Timeline.Item color="blue" label="10:30 WIB">
+                        <span className="font-semibold text-slate-800 dark:text-slate-200 block text-xs sm:text-sm">Pesanan Dibuat</span>
+                        <p className="text-xs text-slate-500">Pelanggan menyelesaikan checkout pesanan</p>
+                      </Timeline.Item>
+                      <Timeline.Item color="purple" label="11:15 WIB">
+                        <span className="font-semibold text-slate-800 dark:text-slate-200 block text-xs sm:text-sm">Pembayaran Terverifikasi</span>
+                        <p className="text-xs text-slate-500">Sistem otomatis mencocokkan mutasi QRIS</p>
+                      </Timeline.Item>
+                      <Timeline.Item color="amber" label="13:40 WIB">
+                        <span className="font-semibold text-slate-800 dark:text-slate-200 block text-xs sm:text-sm">Diproses di Gudang</span>
+                        <p className="text-xs text-slate-500">Pengecekan stok fisik & packaging pesanan</p>
+                      </Timeline.Item>
+                      <Timeline.Item color="green" label="15:00 WIB">
+                        <span className="font-semibold text-emerald-600 dark:text-emerald-400 block text-xs sm:text-sm">Sedang Diantar Kurir</span>
+                        <p className="text-xs text-slate-500">No Resi: JNE-09281742 menuju alamat penerima</p>
+                      </Timeline.Item>
+                      <Timeline.Item color="gray" label="Besok">
+                        <span className="text-slate-400 text-xs sm:text-sm">Pesanan Tiba di Tujuan</span>
+                      </Timeline.Item>
+                    </Timeline>
+                  </div>
+                </CodePreview>
+              </div>
+            </section>
+
+            {/* 17. STATISTIC & RATE (ANT DESIGN HYBRID) */}
+            <section id="statistic-rate" className="scroll-mt-24">
+              <div className="border-b border-slate-200 dark:border-slate-800 pb-3 mb-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Badge variant="primary" pill>Ant Design Hybrid</Badge>
+                  <span className="text-xs text-slate-400 font-mono">Metrics & Feedback</span>
+                </div>
+                <h2 className="text-xl sm:text-3xl font-bold tracking-tight">Statistic & Rate</h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                  Menampilkan angka metrik dashboard performa bisnis dan sistem penilaian bintang interaktif.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <CodePreview
+                  title="Kartu Metrik Statistic Dashboard"
+                  description="Mendukung tren kenaikan/penurunan warna, penambahan prefix/suffix unit mata uang, dan angka presisi desimal:"
+                  code={`<Row gutter={3}>
+  <Col xs={12} sm={6} lg={3}>
+    <Statistic title="Total Pendapatan" value="248.500.000" prefix="Rp " trend="up" />
+  </Col>
+  <Col xs={12} sm={6} lg={3}>
+    <Statistic title="Pengguna Aktif" value="12.450" trend="up" suffix=" user" />
+  </Col>
+  <Col xs={12} sm={6} lg={3}>
+    <Statistic title="Tingkat Keluar (Bounce)" value="2.8" precision={1} suffix="%" trend="down" />
+  </Col>
+  <Col xs={12} sm={6} lg={3}>
+    <Statistic title="Kepuasan Layanan" value="99.2" precision={1} suffix="%" />
+  </Col>
+</Row>`}
+                >
+                  <Row gutter={3}>
+                    <Col xs={12} sm={6} lg={3} className="mb-3 sm:mb-0">
+                      <Statistic
+                        title="Total Omzet Penjualan"
+                        value="248.500.000"
+                        prefix="Rp "
+                        trend="up"
+                      />
+                    </Col>
+                    <Col xs={12} sm={6} lg={3} className="mb-3 sm:mb-0">
+                      <Statistic
+                        title="Pengguna Aktif"
+                        value="12.450"
+                        trend="up"
+                        suffix=" user"
+                      />
+                    </Col>
+                    <Col xs={12} sm={6} lg={3} className="mb-3 sm:mb-0">
+                      <Statistic
+                        title="Tingkat Keluar (Bounce)"
+                        value="2.8"
+                        precision={1}
+                        suffix="%"
+                        trend="down"
+                      />
+                    </Col>
+                    <Col xs={12} sm={6} lg={3}>
+                      <Statistic
+                        title="Kepuasan Pelanggan"
+                        value="99.4"
+                        precision={1}
+                        suffix="%"
+                      />
+                    </Col>
+                  </Row>
+                </CodePreview>
+
+                <CodePreview
+                  title="Penilaian Bintang Interaktif (Rate)"
+                  description="Mendukung seleksi bintang dengan hover tooltip umpan balik secara realtime:"
+                  code={`const [rateVal, setRateVal] = useState(4);
+
+<Rate
+  value={rateVal}
+  onChange={setRateVal}
+  tooltips={['Sangat Buruk', 'Kurang Memuaskan', 'Cukup Baik', 'Sangat Baik', 'Luar Biasa Sempurna!']}
+/>
+<span className="text-sm">Nilai: {rateVal} dari 5 bintang</span>`}
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+                    <Rate
+                      value={rateVal}
+                      onChange={setRateVal}
+                      tooltips={['Sangat Buruk', 'Kurang Memuaskan', 'Cukup Baik', 'Sangat Baik', 'Luar Biasa Sempurna!']}
+                    />
+                    <div className="flex items-center gap-2">
+                      <Badge variant="warning" pill>
+                        Skor: {rateVal} / 5
+                      </Badge>
+                      <span className="text-xs text-slate-500">
+                        {rateVal === 5 ? '⭐️ Sempurna!' : rateVal >= 4 ? '👍 Sangat Bagus' : rateVal >= 3 ? '👌 Cukup' : '⚠️ Perlu Perbaikan'}
+                      </span>
+                    </div>
+                  </div>
+                </CodePreview>
+              </div>
+            </section>
+
+            {/* 18. AVATAR & TAG (ANT DESIGN HYBRID) */}
+            <section id="avatar-tag" className="scroll-mt-24">
+              <div className="border-b border-slate-200 dark:border-slate-800 pb-3 mb-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Badge variant="primary" pill>Ant Design Hybrid</Badge>
+                  <span className="text-xs text-slate-400 font-mono">Profile & Taxonomy</span>
+                </div>
+                <h2 className="text-xl sm:text-3xl font-bold tracking-tight">Avatar & Tag</h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                  Foto profil avatar bertumpuk (*group stacking*) dengan indikator status online, serta label tag warna-warni yang dapat ditutup (*closable*) atau difilter (*checkable*).
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <CodePreview
+                  title="Avatar & Avatar.Group Tumpuk"
+                  description="Mendukung ukuran sm, md, lg, xl, titik status online/away/busy, dan counter +extra otomatis:"
+                  code={`<div className="flex items-center gap-3">
+  <Avatar src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" size="lg" status="online" />
+  <Avatar src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" size="lg" status="busy" />
+  <Avatar name="Budi Santoso" size="lg" />
+</div>
+
+<Avatar.Group max={3}>
+  <Avatar src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" />
+  <Avatar src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" />
+  <Avatar name="Dewi Lestari" />
+  <Avatar name="Eko Prasetyo" />
+  <Avatar name="Rini Amelia" />
+</Avatar.Group>`}
+                >
+                  <div className="space-y-4">
+                    <div>
+                      <span className="text-xs text-slate-500 block mb-2 font-medium">Avatar Tunggal dengan Status:</span>
+                      <div className="flex items-center gap-3">
+                        <Avatar
+                          src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+                          size="lg"
+                          status="online"
+                        />
+                        <Avatar
+                          src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80"
+                          size="lg"
+                          status="busy"
+                        />
+                        <Avatar
+                          name="Budi Santoso"
+                          size="lg"
+                          status="away"
+                        />
+                        <Avatar
+                          shape="square"
+                          name="Admin IT"
+                          size="lg"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="pt-2">
+                      <span className="text-xs text-slate-500 block mb-2 font-medium">Avatar.Group Bertumpuk (Maksimal 3 + Sisa Counter):</span>
+                      <Avatar.Group max={3}>
+                        <Avatar src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" />
+                        <Avatar src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" />
+                        <Avatar name="Dewi Lestari" />
+                        <Avatar name="Eko Prasetyo" />
+                        <Avatar name="Rini Amelia" />
+                      </Avatar.Group>
+                    </div>
+                  </div>
+                </CodePreview>
+
+                <CodePreview
+                  title="Tag Palet Warna, Closable, & Checkable Filter"
+                  description="Variasi palet warna lembut, tag bertombol silang untuk menghapus, dan tag interaktif untuk filter kategori:"
+                  code={`// Palet warna bawaan
+<Tag color="green">Sukses</Tag>
+<Tag color="blue">Processing</Tag>
+<Tag color="magenta">Promo 70%</Tag>
+<Tag color="gold">VIP Gold</Tag>
+
+// Closable tag
+<Tag color="red" closable onClose={() => alert('Tag dihapus')}>Hapus Saya</Tag>
+
+// Checkable tag (Filter interaktif)
+<Tag checkable checked={isSelected} onChange={toggleSelect}>React</Tag>`}
+                >
+                  <div className="space-y-4">
+                    <div>
+                      <span className="text-xs text-slate-500 block mb-2 font-medium">Palet Warna Presets:</span>
+                      <div className="flex flex-wrap gap-2">
+                        <Tag color="blue">#Teknologi</Tag>
+                        <Tag color="green">#Tersedia</Tag>
+                        <Tag color="purple">#AI & Machine Learning</Tag>
+                        <Tag color="magenta">#Promo Hari Ini</Tag>
+                        <Tag color="orange">#Populer</Tag>
+                        <Tag color="gold">#Member VIP</Tag>
+                        <Tag color="cyan">#Cloud Native</Tag>
+                      </div>
+                    </div>
+
+                    <div>
+                      <span className="text-xs text-slate-500 block mb-2 font-medium">Closable (Dapat Ditutup):</span>
+                      <div className="flex flex-wrap gap-2">
+                        <Tag color="blue" closable>Filter: Jakarta</Tag>
+                        <Tag color="green" closable>Rating &gt; 4.5</Tag>
+                        <Tag color="red" closable>Kategori: Elektronik</Tag>
+                      </div>
+                    </div>
+
+                    <div className="pt-1">
+                      <span className="text-xs text-slate-500 block mb-2 font-medium">Checkable Filter (Klik untuk Memilih):</span>
+                      <div className="flex flex-wrap gap-2">
+                        {['React', 'Tailwind', 'Bootstrap', 'TypeScript', 'Vite', 'Next.js'].map((tech) => (
+                          <Tag
+                            key={tech}
+                            checkable
+                            checked={selectedTags.includes(tech)}
+                            onChange={() => toggleTag(tech)}
+                          >
+                            {tech}
+                          </Tag>
+                        ))}
+                      </div>
+                      <p className="text-xs text-slate-400 mt-2">
+                        Terpilih: <strong>{selectedTags.join(', ') || 'Belum ada filter dipilih'}</strong>
+                      </p>
+                    </div>
+                  </div>
+                </CodePreview>
+              </div>
+            </section>
+
+            {/* 19. SEGMENTED & DIVIDER (ANT DESIGN HYBRID) */}
+            <section id="segmented-divider" className="scroll-mt-24">
+              <div className="border-b border-slate-200 dark:border-slate-800 pb-3 mb-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Badge variant="primary" pill>Ant Design Hybrid</Badge>
+                  <span className="text-xs text-slate-400 font-mono">Controls & Layout</span>
+                </div>
+                <h2 className="text-xl sm:text-3xl font-bold tracking-tight">Segmented & Divider</h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                  Kontrol tombol geser bergaya pil (*segmented control*) dan garis pemisah dengan teks judul di posisi kiri, tengah, atau kanan.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <CodePreview
+                  title="Segmented Control (Sliding Switcher)"
+                  description="Alternatif tab atau radio button yang sangat ringkas untuk menyaring filter data secara cepat:"
+                  code={`const [period, setPeriod] = useState('Bulan Ini');
+
+<Segmented
+  value={period}
+  onChange={setPeriod}
+  options={['Hari Ini', 'Minggu Ini', 'Bulan Ini', 'Tahun Ini']}
+/>`}
+                >
+                  <div className="space-y-4">
+                    <div>
+                      <span className="text-xs text-slate-500 block mb-2 font-medium">Ukuran Sedang (Default):</span>
+                      <Segmented
+                        value={segmentedPeriod}
+                        onChange={setSegmentedPeriod}
+                        options={['Hari Ini', 'Minggu Ini', 'Bulan Ini', 'Tahun Ini']}
+                      />
+                    </div>
+
+                    <div className="flex items-center gap-2 text-xs text-slate-500 bg-slate-100 dark:bg-slate-800/60 p-2.5 rounded-lg">
+                      <Sparkles className="w-4 h-4 text-indigo-500" />
+                      <span>Periode aktif: <strong className="text-slate-800 dark:text-slate-200">{segmentedPeriod}</strong></span>
+                    </div>
+
+                    <div>
+                      <span className="text-xs text-slate-500 block mb-2 font-medium">Ukuran Kecil & Block Width:</span>
+                      <Segmented
+                        size="sm"
+                        block
+                        defaultValue="Kanban"
+                        options={['Tabel Data', 'Kanban Board', 'Kalender Jadwal']}
+                      />
+                    </div>
+                  </div>
+                </CodePreview>
+
+                <CodePreview
+                  title="Divider Pemisah dengan Orientasi Teks"
+                  description="Garis pemisah horizontal berorientasi teks kiri, tengah, atau kanan serta garis putus-putus (*dashed*):"
+                  code={`<Divider orientation="left">Informasi Akun</Divider>
+<p>Form isi data pengguna...</p>
+
+<Divider orientation="center">Atau Masuk Melalui</Divider>
+<div className="text-center">Tombol OAuth...</div>
+
+<Divider dashed orientation="right">Syarat & Ketentuan</Divider>`}
+                >
+                  <div className="space-y-2 p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+                    <Divider orientation="left">Pengaturan Profil Pengguna</Divider>
+                    <p className="text-xs text-slate-500">Kelola informasi nama lengkap, email, dan nomor kontak Anda di sini.</p>
+
+                    <Divider orientation="center">Atau Lanjutkan Menggunakan Akun Lain</Divider>
+                    <div className="flex justify-center gap-2">
+                      <Button variant="outline-secondary" size="sm">Google SSO</Button>
+                      <Button variant="outline-secondary" size="sm">GitHub SSO</Button>
+                    </div>
+
+                    <Divider dashed orientation="right">Catatan Keamanan Sistem</Divider>
+                    <p className="text-xs text-slate-400 text-right">Data dienkripsi end-to-end menggunakan standar AES-256.</p>
+                  </div>
+                </CodePreview>
+              </div>
+            </section>
+
+            {/* 20. EMPTY & RESULT (ANT DESIGN HYBRID) */}
+            <section id="empty-result" className="scroll-mt-24">
+              <div className="border-b border-slate-200 dark:border-slate-800 pb-3 mb-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <Badge variant="primary" pill>Ant Design Hybrid</Badge>
+                  <span className="text-xs text-slate-400 font-mono">State Presentations</span>
+                </div>
+                <h2 className="text-xl sm:text-3xl font-bold tracking-tight">Empty & Result State</h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                  Komponen visual status kosong (*empty state*) ketika data tidak tersedia dan tampilan hasil transaksi berhasil/gagal/404.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <CodePreview
+                  title="Empty State (Data Kosong)"
+                  description="Memberikan petunjuk yang jelas kepada pengguna saat data tabel atau daftar masih kosong disertai tombol aksi CTA:"
+                  code={`<Empty
+  description="Belum ada transaksi di bulan ini"
+  action={<Button variant="primary" size="sm">Mulai Buat Transaksi</Button>}
+/>`}
+                >
+                  <Empty
+                    description="Belum ada transaksi di riwayat akun Anda. Silakan mulai berbelanja produk!"
+                    action={
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => addToast({ title: 'Aksi Diklik', message: 'Mengarahkan ke halaman katalog produk...', variant: 'info' })}
+                      >
+                        Jelajahi Produk Baru
+                      </Button>
+                    }
+                  />
+                </CodePreview>
+
+                <CodePreview
+                  title="Result Presentation (Berhasil & Halaman 404)"
+                  description="Layar hasil operasi dengan status success, error, warning, info, 404, 403, atau 500:"
+                  code={`// Status Sukses
+<Result
+  status="success"
+  title="Pembayaran Berhasil Dikonfirmasi!"
+  subTitle="Nomor pesanan #INV-2026-9921 telah diterbitkan. Konfirmasi pembayaran dikirim ke email Anda."
+  extra={[
+    <Button variant="primary" key="dash">Ke Dashboard</Button>,
+    <Button variant="outline-secondary" key="again">Beli Lagi</Button>,
+  ]}
+/>
+
+// Status 404 Tidak Ditemukan
+<Result
+  status="404"
+  title="404 - Halaman Tidak Ditemukan"
+  subTitle="Maaf, halaman yang Anda tuju tidak tersedia atau telah dipindahkan."
+  extra={<Button variant="primary">Kembali ke Beranda</Button>}
+/>`}
+                >
+                  <Row gutter={4}>
+                    <Col xs={12} lg={6}>
+                      <div className="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <Result
+                          status="success"
+                          title="Transaksi Berhasil!"
+                          subTitle="Pesanan #INV-2026-9921 berhasil dibayar via QRIS."
+                          extra={[
+                            <Button
+                              variant="primary"
+                              size="sm"
+                              key="print"
+                              onClick={() => addToast({ title: 'Unduh Resi', message: 'Mengunduh invoice PDF...', variant: 'success' })}
+                            >
+                              Unduh Resi
+                            </Button>,
+                            <Button
+                              variant="outline-secondary"
+                              size="sm"
+                              key="order"
+                              onClick={() => addToast({ title: 'Status Order', message: 'Membuka pelacakan pengiriman...', variant: 'info' })}
+                            >
+                              Lacak Order
+                            </Button>,
+                          ]}
+                        />
+                      </div>
+                    </Col>
+
+                    <Col xs={12} lg={6}>
+                      <div className="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <Result
+                          status="404"
+                          title="404 Tidak Ditemukan"
+                          subTitle="Halaman yang Anda tuju tidak ada atau telah dipindahkan."
+                          extra={
+                            <Button
+                              variant="outline-primary"
+                              size="sm"
+                              onClick={() => {
+                                const el = document.getElementById('overview');
+                                if (el) el.scrollIntoView({ behavior: 'smooth' });
+                              }}
+                            >
+                              Kembali ke Beranda
+                            </Button>
+                          }
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                </CodePreview>
+              </div>
+            </section>
+
             {/* FOOTER */}
             <footer className="pt-8 pb-12 border-t border-slate-200 dark:border-slate-800 text-center text-xs text-slate-400">
               <p className="font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                React Bootstrap Tailwind Responsive Component Library (100% Bootstrap 5 Complete)
+                React Bootstrap + Ant Design Hybrid Component Library (Tailwind Powered)
               </p>
               <p>
-                Dokumentasi komponen resmi bergaya Bootstrap 5 dengan fitur live preview dan tombol copy kode instan.
+                Kombinasi fleksibilitas layout Bootstrap 5 dan kekuatan fitur enterprise Ant Design dengan 100% utilitas Tailwind CSS.
               </p>
             </footer>
 
