@@ -1,18 +1,30 @@
 # React Bootstrap Tailwind UI (100% Bootstrap 5 Complete & Responsive)
 
+[![GitHub Repo](https://img.shields.io/badge/GitHub-dennyoctavian%2Ftailwind--bootstrap-blue?logo=github)](https://github.com/dennyoctavian/tailwind-bootstrap)
+
 Proyek React + TypeScript modern dengan kumpulan **SELURUH komponen standar Bootstrap 5** yang dibangun menggunakan utility styling dari **Tailwind CSS**. Setiap komponen dirancang dengan prinsip **Mobile-First Responsive Design** agar tampil rapi dan nyaman digunakan di smartphone, tablet, maupun layar desktop lebar.
+
+👉 **[Baca Panduan Lengkap Instalasi & Kustomisasi Komponen (PANDUAN_INSTALLASI_DAN_KUSTOMISASI.md)](./PANDUAN_INSTALLASI_DAN_KUSTOMISASI.md)**
 
 ---
 
 ## 🚀 Memulai Proyek
 
-### 1. Jalankan Development Server
+### 1. Clone & Jalankan Development Server
 ```bash
+git clone https://github.com/dennyoctavian/tailwind-bootstrap.git
+cd tailwind-bootstrap
+npm install
 npm run dev
 ```
-Akses di browser: `http://localhost:3000`
+Akses web dokumentasi interaktif di browser: `http://localhost:3000` atau `http://localhost:3001`
 
-### 2. Build untuk Produksi
+### 2. Memasang di Proyek Lain via GitHub
+```bash
+npm install github:dennyoctavian/tailwind-bootstrap
+```
+
+### 3. Build untuk Produksi
 ```bash
 npm run build
 ```
@@ -91,5 +103,5 @@ import {
   ProgressBar, Spinner,
   Tabs,
   Toast, ToastContainer, useToast
-} from './components';
+} from 'react-bootstrap-tailwind-ui';
 ```

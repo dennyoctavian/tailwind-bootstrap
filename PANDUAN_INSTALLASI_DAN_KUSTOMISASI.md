@@ -1,83 +1,96 @@
-# 📘 Panduan Instalasi & Kustomisasi Komponen di Proyek Lain
+# 📘 Panduan Instalasi & Kustomisasi Komponen
 
-Panduan lengkap cara memasang (*install*) library komponen **React Bootstrap Tailwind UI** ke proyek Anda yang lain langsung dari **GitHub**, serta cara mengkustomisasi seluruh desain visualnya menggunakan utility classes dari **Tailwind CSS**.
+Repository GitHub Resmi:  
+👉 **[https://github.com/dennyoctavian/tailwind-bootstrap](https://github.com/dennyoctavian/tailwind-bootstrap)**
+
+Panduan ini berisi dua bagian utama:
+1. **Bagian 1:** Cara meng-install dan menjalankan proyek ini, serta cara memasangnya ke dalam proyek Anda yang lain langsung dari GitHub `dennyoctavian/tailwind-bootstrap`.
+2. **Bagian 2:** Panduan lengkap cara mengkustomisasi, mengubah desain, dan menambahkan varian baru pada komponen yang sudah ada menggunakan Tailwind CSS.
 
 ---
 
 ## 📑 Daftar Isi
-1. [Langkah 1: Mengunggah Library ke GitHub](#-langkah-1-mengunggah-library-ke-github)
-2. [Langkah 2: Memasang Library di Proyek Baru](#-langkah-2-memasang-library-di-proyek-baru)
-3. [Langkah 3: Konfigurasi Tailwind di Proyek Baru (Wajib)](#-langkah-3-konfigurasi-tailwind-di-proyek-baru-wajib)
-4. [Langkah 4: Cara Menggunakan Komponen](#-langkah-4-cara-menggunakan-komponen)
-5. [Langkah 5: Cara Memperbarui Komponen (Update)](#-langkah-5-cara-memperbarui-komponen-update)
-6. [🎨 Panduan Lengkap Kustomisasi Desain dengan Tailwind CSS](#-panduan-lengkap-kustomisasi-desain-dengan-tailwind-css)
-   - [A. Mengapa Sangat Mudah Dikustomisasi?](#a-mengapa-sangat-mudah-dikustomisasi)
-   - [B. Kustomisasi Tombol (Button)](#b-kustomisasi-tombol-button)
-   - [C. Kustomisasi Kartu (Card) Bergaya Glassmorphism](#c-kustomisasi-kartu-card-bergaya-glassmorphism)
-   - [D. Kustomisasi Formulir & Input](#d-kustomisasi-formulir--input)
-   - [E. Kustomisasi Responsivitas per Komponen](#e-kustomisasi-responsivitas-per-komponen)
-   - [F. Kustomisasi Dark Mode](#f-kustomisasi-dark-mode)
-7. [💡 Alternatif Instalasi Lainnya](#-alternatif-instalasi-lainnya)
-8. [❓ Tanya Jawab & Pemecahan Masalah (Troubleshooting)](#-tanya-jawab--pemecahan-masalah-troubleshooting)
+- [BAGIAN 1: CARA INSTALASI PROYEK](#bagian-1-cara-instalasi-proyek)
+  - [1. Cara Menjalankan Proyek Ini Sendiri (Clone dari GitHub)](#1-cara-menjalankan-proyek-ini-sendiri-clone-dari-github)
+  - [2. Cara Memasang Komponen Ini ke Proyek Anda yang Lain (via GitHub)](#2-cara-memasang-komponen-ini-ke-proyek-anda-yang-lain-via-github)
+  - [3. Konfigurasi Wajib Tailwind di Proyek Baru](#3-konfigurasi-wajib-tailwind-di-proyek-baru)
+  - [4. Contoh Pemakaian di Proyek Lain](#4-contoh-pemakaian-di-proyek-lain)
+  - [5. Cara Update ke Versi Terbaru](#5-cara-update-ke-versi-terbaru)
+- [BAGIAN 2: PANDUAN LENGKAP KUSTOMISASI KOMPONEN](#bagian-2-panduan-lengkap-kustomisasi-komponen)
+  - [Level 1: Kustomisasi Cepat via `className` (Tanpa Mengubah Kode Sumber)](#level-1-kustomisasi-cepat-via-classname-tanpa-mengubah-kode-sumber)
+  - [Level 2: Mengubah Palet Warna Global Brand di `tailwind.config.js`](#level-2-mengubah-palet-warna-global-brand-di-tailwindconfigjs)
+  - [Level 3: Menambahkan Varian Baru ke Komponen (Misal: Varian Neon / Ungu)](#level-3-menambahkan-varian-baru-ke-komponen-misal-varian-neon--ungu)
+  - [Level 4: Menambahkan Prop Baru ke Komponen (Misal: Prop `shadow` atau `glow`)](#level-4-menambahkan-prop-baru-ke-komponen-misal-prop-shadow-atau-glow)
+  - [Level 5: Kustomisasi Ukuran Default Komponen](#level-5-kustomisasi-ukuran-default-komponen)
+  - [Level 6: Kustomisasi Mode Gelap (Dark Mode)](#level-6-kustomisasi-mode-gelap-dark-mode)
 
 ---
 
-## 🐙 Langkah 1: Mengunggah Library ke GitHub
+# BAGIAN 1: CARA INSTALASI PROYEK
 
-Proyek ini telah selesai dikompilasi dan diinisialisasi Git di komputer Anda. Anda hanya perlu membuat repository di akun GitHub Anda dan melakukan push.
+## 1. Cara Menjalankan Proyek Ini Sendiri (Clone dari GitHub)
 
-1. Buka [GitHub New Repository](https://github.com/new).
-2. Beri nama repository, misalnya: `react-bootstrap-tailwind-ui`.
-3. Pilih visibilitas **Public** atau **Private** (keduanya didukung oleh npm).
-4. Klik **Create repository** (tidak perlu centang *Initialize with README*).
-5. Buka terminal di folder proyek ini (`/Volumes/Data/Programming/tailwind`) dan jalankan:
+Jika Anda atau rekan tim Anda ingin mengunduh dan menjalankan seluruh web dokumentasi interaktif ini di komputer lokal:
 
 ```bash
-git remote add origin https://github.com/USERNAME_GITHUB_ANDA/react-bootstrap-tailwind-ui.git
-git branch -M main
-git push -u origin main
+# 1. Clone repository dari GitHub
+git clone https://github.com/dennyoctavian/tailwind-bootstrap.git
+
+# 2. Masuk ke folder proyek
+cd tailwind-bootstrap
+
+# 3. Pasang semua dependensi
+npm install
+
+# 4. Jalankan server pengembangan
+npm run dev
 ```
-*(Ganti `USERNAME_GITHUB_ANDA` dengan username GitHub Anda).*
+Buka browser di **`http://localhost:3000`** atau **`http://localhost:3001`**.
 
 ---
 
-## 📦 Langkah 2: Memasang Library di Proyek Baru
+## 2. Cara Memasang Komponen Ini ke Proyek Anda yang Lain (via GitHub)
 
-Buka terminal di folder **proyek Anda yang lain** (misalnya proyek Next.js, Vite, atau Create React App), kemudian jalankan salah satu perintah berikut:
+Jika Anda memiliki **proyek React lain** (misalnya website toko online, dashboard admin, portofolio, dll.) dan ingin menggunakan komponen Bootstrap Tailwind ini:
 
-### Opsi A: Jika Repository GitHub Publik
+Buka terminal di **folder proyek Anda yang lain**, lalu jalankan:
+
+### Menggunakan NPM:
 ```bash
-npm install github:USERNAME_GITHUB_ANDA/react-bootstrap-tailwind-ui
+npm install github:dennyoctavian/tailwind-bootstrap
 ```
-*atau menggunakan format URL Git:*
+*atau menggunakan format URL Git lengkap:*
 ```bash
-npm install git+https://github.com/USERNAME_GITHUB_ANDA/react-bootstrap-tailwind-ui.git
-```
-
-### Opsi B: Jika Repository GitHub Privat
-Jika repository bersifat private dan komputer Anda sudah memiliki SSH Key GitHub:
-```bash
-npm install git+ssh://git@github.com:USERNAME_GITHUB_ANDA/react-bootstrap-tailwind-ui.git
+npm install git+https://github.com/dennyoctavian/tailwind-bootstrap.git
 ```
 
-Setelah selesai, dependensi akan otomatis ditambahkan ke `package.json` proyek baru Anda:
+### Menggunakan Yarn:
+```bash
+yarn add github:dennyoctavian/tailwind-bootstrap
+```
+
+### Menggunakan PNPM:
+```bash
+pnpm add github:dennyoctavian/tailwind-bootstrap
+```
+
+Setelah perintah di atas selesai, dependensi akan otomatis tercatat di `package.json` proyek baru Anda:
 ```json
 {
   "dependencies": {
-    "react-bootstrap-tailwind-ui": "github:USERNAME_GITHUB_ANDA/react-bootstrap-tailwind-ui"
+    "react-bootstrap-tailwind-ui": "github:dennyoctavian/tailwind-bootstrap"
   }
 }
 ```
 
 ---
 
-## ⚙️ Langkah 3: Konfigurasi Tailwind di Proyek Baru (Wajib)
+## 3. Konfigurasi Wajib Tailwind di Proyek Baru
 
 > [!IMPORTANT]
-> **Mengapa langkah ini wajib?**  
-> Tailwind CSS menggunakan sistem *tree-shaking (purge)* yang hanya mengompilasi class CSS yang ada di dalam berkas yang didaftarkan pada opsi `content`. Agar class Tailwind yang digunakan oleh komponen ikut ter-generate di proyek baru, daftarkan path `node_modules`-nya.
+> **PENTING:** Tailwind CSS menggunakan sistem *tree-shaking (purge)* yang hanya mengompilasi class CSS yang terdaftar pada array `content`. Agar semua class Tailwind pada komponen Bootstrap ini terbaca dan berwarna di proyek baru Anda, Anda **wajib** mendaftarkan `node_modules` di `tailwind.config.js` proyek baru.
 
-Buka berkas `tailwind.config.js` di proyek baru Anda, lalu tambahkan baris berikut pada array `content`:
+Buka berkas `tailwind.config.js` di proyek baru Anda, lalu tambahkan baris berikut:
 
 ```js
 /** @type {import('tailwindcss').Config} */
@@ -85,10 +98,10 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    // 👇 WAJIB: Tambahkan baris ini agar style komponen terbaca:
+    // 👇 WAJIB DITAMBAHKAN agar styling komponen aktif:
     "./node_modules/react-bootstrap-tailwind-ui/**/*.{js,ts,jsx,tsx}"
   ],
-  darkMode: 'class', // Opsional: jika ingin mendukung dark mode
+  darkMode: 'class',
   theme: {
     extend: {},
   },
@@ -96,33 +109,32 @@ export default {
 }
 ```
 
-Pastikan juga proyek baru Anda telah memasang dependensi pendukung ikon:
+Pastikan juga proyek baru Anda telah menginstal pustaka ikon Lucide (digunakan oleh Modal, Alert, Carousel, Accordion, dll.):
 ```bash
 npm install lucide-react clsx tailwind-merge
 ```
 
 ---
 
-## 🚀 Langkah 4: Cara Menggunakan Komponen
+## 4. Contoh Pemakaian di Proyek Lain
 
-Setelah dipasang, Anda dapat langsung mengimpor komponen apa pun di halaman React proyek baru Anda:
+Di dalam file komponen proyek baru Anda (misalnya `src/App.tsx` atau `src/pages/Dashboard.tsx`):
 
 ```tsx
-// src/App.tsx di proyek baru Anda
 import { 
   Container, Row, Col, 
   Button, Card, Alert, 
   Modal, useState 
 } from 'react-bootstrap-tailwind-ui';
 
-export default function MyDashboard() {
-  const [openModal, setOpenModal] = useState(false);
+export default function Dashboard() {
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <Container className="py-8">
       {/* Notifikasi Alert */}
-      <Alert variant="success" dismissible className="mb-6">
-        <strong>Sukses!</strong> Komponen berhasil diimpor dari GitHub.
+      <Alert variant="primary" dismissible className="mb-6">
+        Selamat datang di dashboard! Komponen ini diimpor langsung dari GitHub.
       </Alert>
 
       {/* Grid Responsif */}
@@ -130,29 +142,26 @@ export default function MyDashboard() {
         <Col xs={12} md={6} lg={4}>
           <Card hoverable>
             <Card.Body>
-              <Card.Title>Kartu Produk</Card.Title>
-              <Card.Text>
-                Komponen ini responsif dan langsung siap pakai.
-              </Card.Text>
-              <Button variant="primary" onClick={() => setOpenModal(true)}>
-                Buka Modal
+              <Card.Title>Data Penjualan</Card.Title>
+              <Card.Text>Total transaksi bulan ini meningkat 25%.</Card.Text>
+              <Button variant="primary" onClick={() => setShowModal(true)}>
+                Lihat Detail
               </Button>
             </Card.Body>
           </Card>
         </Col>
       </Row>
 
-      {/* Modal Dialog */}
-      <Modal show={openModal} onClose={() => setOpenModal(false)} fullscreenSmDown>
-        <Modal.Header onClose={() => setOpenModal(false)}>
-          <Modal.Title>Konfirmasi Aksi</Modal.Title>
+      {/* Modal Dialog Responsif */}
+      <Modal show={showModal} onClose={() => setShowModal(false)} fullscreenSmDown>
+        <Modal.Header onClose={() => setShowModal(false)}>
+          <Modal.Title>Detail Penjualan</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Apakah Anda yakin ingin memproses pesanan ini?
+          Rincian transaksi lengkap ditampilkan di sini.
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setOpenModal(false)}>Batal</Button>
-          <Button variant="primary" onClick={() => setOpenModal(false)}>Ya, Lanjutkan</Button>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>Tutup</Button>
         </Modal.Footer>
       </Modal>
     </Container>
@@ -162,189 +171,267 @@ export default function MyDashboard() {
 
 ---
 
-## 🔄 Langkah 5: Cara Memperbarui Komponen (Update)
+## 5. Cara Update ke Versi Terbaru
 
-Jika Anda melakukan perubahan, perbaikan bug, atau menambahkan komponen baru di repository GitHub:
-1. Di repository komponen ini, lakukan commit & push perubahan:
+Jika Anda memperbarui komponen di repository GitHub `dennyoctavian/tailwind-bootstrap`:
+1. Di repository komponen ini, lakukan push perubahan:
    ```bash
    git add .
-   git commit -m "feat: tambah komponen baru"
+   git commit -m "feat: perbarui komponen"
    git push origin main
    ```
-2. Di proyek lain yang menggunakannya, Anda cukup menjalankan:
+2. Di proyek lain yang menggunakannya, cukup jalankan:
    ```bash
    npm update react-bootstrap-tailwind-ui
    ```
-NPM akan otomatis mengunduh versi komit terbaru dari GitHub!
 
 ---
 
-## 🎨 Panduan Lengkap Kustomisasi Desain dengan Tailwind CSS
+# BAGIAN 2: PANDUAN LENGKAP KUSTOMISASI KOMPONEN
 
-### A. Mengapa Sangat Mudah Dikustomisasi?
-Setiap komponen dibangun menggunakan utility `cn(...)` yang menggabungkan `clsx` dan **`tailwind-merge`**.
-
-```tsx
-// Di balik layar setiap komponen:
-className={cn(
-  defaultBootstrapClasses,
-  variantClasses,
-  className // 👈 className kustom Anda diletakkan paling akhir
-)}
-```
-
-`tailwind-merge` secara cerdas menyelesaikan konflik class CSS tanpa memerlukan `!important`. Jika Anda memberikan `className="bg-purple-600 rounded-full"`, Tailwind akan otomatis **menimpa** warna biru bawaan dan sudut kotak default Bootstrap!
+Seluruh komponen dibuat dengan arsitektur **Tailwind Utility-First** dan fungsi pembantu `cn()` (`clsx` + `tailwind-merge`). Desain komponen dapat diubah dengan sangat mudah di berbagai tingkatan.
 
 ---
 
-### B. Kustomisasi Tombol (Button)
+## Level 1: Kustomisasi Cepat via `className` (Tanpa Mengubah Kode Sumber)
 
+Setiap komponen menerima prop `className`. Berkat pustaka **`tailwind-merge`**, class kustom yang Anda berikan akan **secara cerdas menimpa style default Bootstrap tanpa perlu menulis `!important`**.
+
+### 1. Kustomisasi Tombol (`Button`)
 ```tsx
 import { Button } from 'react-bootstrap-tailwind-ui';
 
-// 1. Tampilan Default Bootstrap:
-<Button variant="primary">Tombol Standar</Button>
-
-// 2. Tombol Modern Gradasi Ungu-Pink:
+// A. Tombol Gradasi Modern dengan Sudut Bulat Penuh (Pill)
 <Button
   variant="primary"
-  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full shadow-lg hover:shadow-purple-500/30 px-8 py-3 font-semibold"
+  className="bg-gradient-to-r from-purple-600 via-pink-600 to-red-500 hover:from-purple-700 hover:to-red-600 text-white rounded-full shadow-xl hover:shadow-purple-500/30 px-8 py-3.5 font-bold tracking-wide uppercase"
 >
-  Gradasi Modern
+  Gradasi Mewah
 </Button>
 
-// 3. Tombol Outline Gaya Neon:
+// B. Tombol Efek Neon Glow (Cyberpunk)
 <Button
   variant="outline-primary"
-  className="border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-slate-900 rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.4)]"
+  className="border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-slate-900 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.5)] font-mono"
 >
-  Glow Neon
+  Cyber Neon
 </Button>
 
-// 4. Tombol dengan Animasi Hover Scale:
+// C. Tombol dengan Animasi Interaktif
 <Button
   variant="success"
-  className="hover:scale-105 active:scale-95 transition-transform duration-200"
+  className="hover:scale-105 active:scale-95 transition-transform duration-150 rounded-2xl"
 >
-  Efek Animasi
+  Hover Mengembang
 </Button>
 ```
 
----
-
-### C. Kustomisasi Kartu (Card) Bergaya Glassmorphism
-
+### 2. Kustomisasi Kartu (`Card`) Menjadi Efek Kaca (*Glassmorphism*)
 ```tsx
 import { Card } from 'react-bootstrap-tailwind-ui';
 
-// Mengubah Card standar menjadi Card Kaca Transparan (Glassmorphism):
-<Card className="bg-white/10 dark:bg-slate-900/40 backdrop-blur-md border border-white/20 dark:border-white/10 rounded-3xl shadow-2xl p-6">
+<Card className="bg-white/10 dark:bg-slate-900/40 backdrop-blur-md border border-white/20 rounded-3xl shadow-2xl p-6">
   <Card.Body>
     <Card.Title className="text-2xl font-black text-white">Glassmorphism Card</Card.Title>
     <Card.Text className="text-slate-200">
-      Efek blur dan transparansi mewah langsung aktif hanya dengan class Tailwind bawaan.
+      Efek blur dan transparansi modern langsung aktif hanya dengan mengoper class Tailwind.
     </Card.Text>
   </Card.Body>
 </Card>
 ```
 
----
-
-### D. Kustomisasi Formulir & Input
-
+### 3. Kustomisasi Input Formulir (`FormControl`)
 ```tsx
-import { FormControl, FloatingLabel } from 'react-bootstrap-tailwind-ui';
+import { FormControl } from 'react-bootstrap-tailwind-ui';
 
-// 1. Input Pencarian Oval dengan Border Khusus:
+// Input Pencarian Oval dengan Glow Ring Khusus
 <FormControl
   type="text"
-  placeholder="Cari artikel atau produk..."
-  className="rounded-full border-2 border-indigo-300 focus:border-indigo-600 focus:ring-8 focus:ring-indigo-500/20 px-6 py-3 bg-slate-50 dark:bg-slate-800"
-/>
-
-// 2. Floating Label Kustom dengan Warna Aksen Brand:
-<FloatingLabel
-  label="Alamat Email Perusahaan"
-  type="email"
-  className="[&_input]:border-amber-400 [&_input]:focus:border-amber-600 [&_label]:text-amber-700"
+  placeholder="Cari data..."
+  className="rounded-full border-2 border-indigo-200 focus:border-indigo-600 focus:ring-8 focus:ring-indigo-500/20 px-6 py-3 bg-slate-50"
 />
 ```
 
 ---
 
-### E. Kustomisasi Responsivitas per Komponen
+## Level 2: Mengubah Palet Warna Global Brand di `tailwind.config.js`
 
-Semua class responsif Tailwind (`sm:`, `md:`, `lg:`, `xl:`) dapat langsung disisipkan pada `className`:
+Jika perusahaan atau aplikasi Anda memiliki warna identitas sendiri (misalnya warna biru utama diganti dengan warna Indigo `#4f46e5` atau Hijau Zamrud `#059669`), Anda bisa mengubahnya sekali saja di `tailwind.config.js`.
 
-```tsx
-// Tombol yang memanjang penuh (100%) di layar ponsel, namun berukuran ringkas di desktop:
-<Button variant="primary" className="w-full md:w-auto md:px-8">
-  Kirim Data
-</Button>
-
-// Teks Card yang lebih kecil di HP dan membesar di layar lebar:
-<Card.Title className="text-base sm:text-lg lg:text-2xl font-bold">
-  Judul Responsif
-</Card.Title>
-```
-
----
-
-### F. Kustomisasi Dark Mode
-
-Semua komponen sudah dilengkapi selector `dark:` Tailwind bawaan. Di proyek baru Anda:
-
-1. Di `tailwind.config.js`, pastikan `darkMode: 'class'` sudah diaktifkan.
-2. Ketika elemen `html` atau `body` diberi class `dark`:
-   ```html
-   <html class="dark">
-   ```
-3. Seluruh warna background, border, teks, dan status validasi komponen akan otomatis beralih ke palet mode gelap secara instan.
-4. Anda juga bisa menimpa warna dark mode secara spesifik:
-   ```tsx
-   <Card className="dark:bg-indigo-950 dark:border-indigo-800">
-   ```
-
----
-
-## 💡 Alternatif Instalasi Lainnya
-
-### Opsi 1: Pasang Langsung via Local Path (Offline / Tanpa GitHub)
-Jika kedua proyek berada di laptop yang sama:
-```bash
-npm install /Volumes/Data/Programming/tailwind
-```
-Atau di `package.json` proyek baru:
-```json
-{
-  "dependencies": {
-    "react-bootstrap-tailwind-ui": "file:/Volumes/Data/Programming/tailwind"
+Buka berkas `tailwind.config.js`:
+```js
+// tailwind.config.js
+export default {
+  theme: {
+    extend: {
+      colors: {
+        bs: {
+          primary: {
+            DEFAULT: '#4f46e5', // 👈 Ubah warna biru default Bootstrap ke warna Brand Anda
+            hover: '#4338ca',
+            light: '#e0e7ff',
+            text: '#312e81',
+          },
+          success: {
+            DEFAULT: '#059669', // 👈 Ubah warna hijau
+            hover: '#047857',
+            light: '#d1fae5',
+            text: '#064e3b',
+          }
+        }
+      }
+    }
   }
 }
 ```
-
-### Opsi 2: Salin Folder `components/` (Metode ala Shadcn UI)
-Salin folder `src/components/` dan `src/utils/` dari proyek ini langsung ke folder `src/` proyek baru Anda. Dengan cara ini Anda memiliki 100% kepemilikan kode tanpa perlu package eksternal.
+**Hasilnya:** Seluruh komponen `Button variant="primary"`, `Badge variant="primary"`, `Alert variant="primary"`, `Tabs`, dan `ProgressBar` akan otomatis serentak berubah mengikuti warna brand baru Anda!
 
 ---
 
-## ❓ Tanya Jawab & Pemecahan Masalah (Troubleshooting)
+## Level 3: Menambahkan Varian Baru ke Komponen (Misal: Varian Neon / Ungu)
 
-### Q1: Style komponen tidak muncul / tidak berwarna di proyek baru?
-**Penyebab:** Berkas `tailwind.config.js` di proyek baru belum menyertakan `node_modules/react-bootstrap-tailwind-ui` di bagian `content`.  
-**Solusi:** Pastikan baris berikut ada di `tailwind.config.js` proyek baru Anda:
-```js
-content: [
-  "./src/**/*.{js,ts,jsx,tsx}",
-  "./node_modules/react-bootstrap-tailwind-ui/**/*.{js,ts,jsx,tsx}"
-]
+Jika Anda ingin menambahkan varian baru seperti `variant="purple"` atau `variant="gradient"` agar dapat dipanggil seperti `<Button variant="purple">`:
+
+Buka berkas komponen yang ingin ditambah variannya, contohnya: [`src/components/buttons/Button.tsx`](file:///Volumes/Data/Programming/tailwind/src/components/buttons/Button.tsx):
+
+### 1. Tambahkan tipe varian baru:
+```tsx
+export type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  // 👇 Tambahkan varian baru di sini:
+  | 'purple'
+  | 'gradient'
+  | 'outline-purple';
 ```
 
-### Q2: Ikon tidak muncul?
-**Solusi:** Pastikan proyek baru telah menginstal paket ikon:
-```bash
-npm install lucide-react
+### 2. Daftarkan styling Tailwind untuk varian tersebut:
+```tsx
+const variantClasses: Record<ButtonVariant, string> = {
+  primary: 'bg-[#0d6efd] text-white hover:bg-[#0b5ed7] ...',
+  // ...
+  // 👇 Tambahkan konfigurasi class varian baru Anda:
+  purple: 'bg-purple-600 text-white hover:bg-purple-700 focus:ring-4 focus:ring-purple-300 border border-purple-600 active:bg-purple-800',
+  gradient: 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-md',
+  'outline-purple': 'text-purple-600 border border-purple-600 hover:bg-purple-600 hover:text-white focus:ring-4 focus:ring-purple-200',
+};
 ```
 
-### Q3: Error `git@github.com: Permission denied (publickey)` saat install repo private?
-**Solusi:** Pastikan SSH Key komputer Anda sudah didaftarkan di pengaturan akun GitHub Anda ([github.com/settings/keys](https://github.com/settings/keys)).
+Sekarang Anda bisa langsung menggunakannya di mana saja:
+```tsx
+<Button variant="purple">Tombol Ungu Resmi</Button>
+<Button variant="gradient">Tombol Gradasi Resmi</Button>
+```
+
+---
+
+## Level 4: Menambahkan Prop Baru ke Komponen (Misal: Prop `shadow` atau `glow`)
+
+Misalnya Anda ingin menambahkan prop `glow?: boolean` pada `Button.tsx` agar tombol memiliki efek cahaya neon otomatis:
+
+Buka [`src/components/buttons/Button.tsx`](file:///Volumes/Data/Programming/tailwind/src/components/buttons/Button.tsx):
+
+```tsx
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  pill?: boolean;
+  block?: boolean;
+  isLoading?: boolean;
+  icon?: React.ReactNode;
+  glow?: boolean; // 👈 1. Tambahkan prop baru di interface
+}
+
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      variant = 'primary',
+      size = 'md',
+      pill = false,
+      block = false,
+      isLoading = false,
+      glow = false, // 👈 2. Ambil nilai prop
+      className,
+      children,
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <button
+        ref={ref}
+        className={cn(
+          'inline-flex items-center justify-center font-medium transition-all duration-150',
+          pill ? 'rounded-full' : 'rounded-md',
+          glow && 'shadow-[0_0_20px_rgba(59,130,246,0.6)] hover:shadow-[0_0_25px_rgba(59,130,246,0.8)]', // 👈 3. Masukkan styling Tailwind
+          sizeClasses[size],
+          variantClasses[variant],
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </button>
+    );
+  }
+);
+```
+
+Penggunaan:
+```tsx
+<Button variant="primary" glow>Tombol Bersinar</Button>
+```
+
+---
+
+## Level 5: Kustomisasi Ukuran Default Komponen
+
+Jika Anda ingin tombol ukuran `md` atau `lg` menjadi sedikit lebih besar atau memiliki padding yang lebih lega:
+
+Buka `sizeClasses` di [`src/components/buttons/Button.tsx`](file:///Volumes/Data/Programming/tailwind/src/components/buttons/Button.tsx):
+
+```tsx
+const sizeClasses: Record<ButtonSize, string> = {
+  sm: 'text-xs px-2.5 py-1.5 min-h-[32px] gap-1.5',
+  md: 'text-sm px-5 py-2.5 min-h-[42px] gap-2',     // 👈 Sesuaikan padding dan tinggi di sini
+  lg: 'text-base px-6 py-3.5 min-h-[50px] gap-2.5', // 👈 Ukuran besar untuk tombol hero
+};
+```
+
+---
+
+## Level 6: Kustomisasi Mode Gelap (Dark Mode)
+
+Seluruh komponen sudah memiliki selector `dark:` Tailwind bawaan:
+- Background: `dark:bg-slate-800` / `dark:bg-slate-900`
+- Teks: `dark:text-slate-100` / `dark:text-white`
+- Border: `dark:border-slate-700`
+
+Jika Anda ingin warna tema gelap yang berbeda (misalnya hitam pekat AMOLED `#000000` atau biru navy gelap):
+1. Anda bisa menimpa langsung via `className`:
+   ```tsx
+   <Card className="dark:bg-black dark:border-zinc-800">
+   ```
+2. Atau sesuaikan warna latar belakang di `index.html` dan `index.css`:
+   ```css
+   @layer base {
+     .dark body {
+       background-color: #0b0f19; /* Navy gelap */
+       color: #f8fafc;
+     }
+   }
+   ```
+
+---
+
+## 📌 Rangkuman
+
+| Kebutuhan Anda | Solusi Terbaik |
+| :--- | :--- |
+| **Kustomisasi satu tombol / kartu saja** | Gunakan `className="..."` langsung pada komponen (didukung auto-override `tailwind-merge`). |
+| **Mengubah warna tema seluruh website** | Ubah palet warna `bs.primary` di `tailwind.config.js`. |
+| **Menambah varian baru permanen** | Buka berkas komponen terkait dan tambahkan tipe serta class di `variantClasses`. |
+| **Menambah fitur/perilaku baru** | Tambahkan prop baru pada interface komponen. |
+
+Panduan ini tersimpan langsung di file [PANDUAN_INSTALLASI_DAN_KUSTOMISASI.md](file:///Volumes/Data/Programming/tailwind/PANDUAN_INSTALLASI_DAN_KUSTOMISASI.md).
